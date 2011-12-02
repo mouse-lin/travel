@@ -1,6 +1,9 @@
 <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function(){
+        //表格校验开始
         jQuery("#formID").validationEngine();
+
+        //日期选择定义
         $("#dateEnd").glDatePicker({
             cssName: "android",
             onChange: function(target, newDate){
@@ -12,7 +15,6 @@
                  );
            }
         });
-
         $("#dateStart").glDatePicker({
             cssName: "android",
             onChange: function(target, newDate){
@@ -34,7 +36,7 @@
         <ul>
           <li>
             <form id="formID" class="formular" method="post" action="">
-                产品分类<font color="red">*</font>：<input class="validate[required[alertProduct]] "  name="产品" id="产品"></input>
+                产品分类<font color="red">*</font>：<input class="validate[required[alertProduct]] "  name="product" id="product"></input>
                 出发地 ：<input type="text_field"></input>
                 目的地：<input type="text_field"></input>
                 线路路线：<input type="text_field"></input>

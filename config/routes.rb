@@ -1,5 +1,11 @@
 Travel::Application.routes.draw do
   get "homes/index"
+  resources :homes do
+    collection do
+      get "line_detail"
+    end
+  end
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

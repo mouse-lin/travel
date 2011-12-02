@@ -201,7 +201,7 @@
 				prevDateLastDay = prevDateLastDay.getDate();
 
 			// The month names to show in toolbar
-			var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+			var monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "11月", "12月"];
 
 			// Save current date
 			target.data("theDate", theDate);
@@ -278,7 +278,7 @@
 							("<td class='**-prevnext next'>"+(showN ? "►":"")+"</td>")+
 						"</tr>"+
 						"<tr class='**-dow'>"+ /* Day of Week */
-							"<td>Sun</td><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td>"+
+							"<td>星期天</td><td>星期一</td><td>星期二</td><td>星期三</td><td>星期四</td><td>星期五<td>星期六</td>"+
 						"</tr>"+days+
 					"</table>"+
 				"<div>";
