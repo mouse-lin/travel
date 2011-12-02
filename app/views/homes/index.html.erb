@@ -1,23 +1,31 @@
 <!-- ####################################################################################################### -->
+<script type="text/javascript" charset="utf-8">
+    jQuery(document).ready(function(){
+        // binds form submission and fields to the validation engine
+        jQuery("#formID").validationEngine();
+    });
+</script>
 <div class="wrapper col3">
   <div id="homecontent">
     <div class="fl_left">
       <div class="column2">
         <ul>
           <li>
-            产品分类*：<input type="text_field"></input><br>
-            出发地 ：   <input type="text_field"></input><br>
-            目的地：<input type="text_field"></input><br>
-            线路路线：<input type="text_field"></input><br>
-            出团时间起：<input type="text_field"></input><br>
-            出团时间止：<input type="text_field"></input><br>
-            天数：<input type="text_field"></input><br>
-            价格：<input type="text_field"></input><br>
-            ======<br>
-            线路编号：<input type="text_field"></input><br>
-            关键字：<input type="text_field"></input><br>
-            批发商：<input type="text_field"></input><br>
+            <form id="formID" class="formular" method="post" action="">
+                产品分类<font color="red">*</font>：<input class="validate[required] "  name="产品" id="产品"></input>
+                出发地 ：   <input type="text_field"></input>
+                目的地：<input type="text_field"></input>
+                线路路线：<input type="text_field"></input>
+                出团时间起：<input class="validate[custom[date]]" name="dateStart" id="dateStart"></input>
+                出团时间止：<input type="text_field"></input>
+                天数：<input type="text_field"></input>
+                价格：<input type="text_field"></input>
+                ======<br>
+                线路编号：<input type="text_field"></input>
+                关键字：<input type="text_field"></input>
+                批发商：<input type="text_field"></input>
             <button>快速查找</button>
+            </form>
           </li>
         </ul>
         <br class="clear" />
