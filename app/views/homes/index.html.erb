@@ -1,11 +1,32 @@
-<!-- ####################################################################################################### -->
 <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function(){
-        // binds form submission and fields to the validation engine
         jQuery("#formID").validationEngine();
-        $("#dateStart").get(0).addEventListener("click",function(){ alert("选中日期") })
+        $("#dateEnd").glDatePicker({
+            cssName: "android",
+            onChange: function(target, newDate){
+                 target.val
+                 (
+                     newDate.getFullYear() + "-" +
+                     (newDate.getMonth() + 1) + "-" +
+                     newDate.getDate()
+                 );
+           }
+        });
+
+        $("#dateStart").glDatePicker({
+            cssName: "android",
+            onChange: function(target, newDate){
+                 target.val
+                 (
+                     newDate.getFullYear() + "-" +
+                     (newDate.getMonth() + 1) + "-" +
+                     newDate.getDate()
+                 );
+           }
+        });
     });
 </script>
+
 <div class="wrapper col3">
   <div id="homecontent">
     <div class="fl_left">
@@ -14,7 +35,7 @@
           <li>
             <form id="formID" class="formular" method="post" action="">
                 产品分类<font color="red">*</font>：<input class="validate[required[alertProduct]] "  name="产品" id="产品"></input>
-                出发地 ：   <input type="text_field"></input>
+                出发地 ：<input type="text_field"></input>
                 目的地：<input type="text_field"></input>
                 线路路线：<input type="text_field"></input>
                 出团时间起：<input class="validate[custom[date]]" name="dateStart" id="dateStart"></input>
