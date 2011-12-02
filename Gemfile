@@ -19,7 +19,13 @@ end
 gem 'jquery-rails'
 
 gem 'therubyracer'
-gem "mongrel", ">=1.2.0.pre2"
+#gem "mongrel", ">=1.2.0.pre2"
+
+#gem 'therubyracer-heroku', '0.8.1.pre3' 
+#  gem 'pg'
+group :production do
+  gem 'pg'
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -37,3 +43,4 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
 end
+
