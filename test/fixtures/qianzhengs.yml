@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  pifa: 
+  songqiandi: MyString
+  songqianguo: MyString
+  visatype: MyString
+  document: MyText
+  days: 1
+  detail: MyText
+  tonghang: 1
+  zhike: 1
+  daystart: 2011-12-02 14:42:04
+  dayend: 2011-12-02 14:42:04
+
+two:
+  pifa: 
+  songqiandi: MyString
+  songqianguo: MyString
+  visatype: MyString
+  document: MyText
+  days: 1
+  detail: MyText
+  tonghang: 1
+  zhike: 1
+  daystart: 2011-12-02 14:42:04
+  dayend: 2011-12-02 14:42:04

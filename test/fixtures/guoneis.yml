@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  pifa: 
+  chufa: 
+  linename: 
+  days: 1
+  detail: MyText
+
+two:
+  pifa: 
+  chufa: 
+  linename: 
+  days: 1
+  detail: MyText
