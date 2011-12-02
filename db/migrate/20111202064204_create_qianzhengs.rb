@@ -4,7 +4,7 @@ class CreateQianzhengs < ActiveRecord::Migration
       t.references :pifa
       t.string :songqiandi
       t.string :songqianguo
-      t.string :visatype
+      t.references :visatype
       t.text :document
       t.integer :days
       t.text :detail

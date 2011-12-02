@@ -1,7 +1,97 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+# -*- encoding : utf-8 -*-
+Chufa.create!([
+  { :name => "北京"},
+  { :name => "广州"},
+  { :name => "天津"},
+  { :name => "沈阳"},
+  { :name => "石家庄"},
+  { :name => "青岛"},
+  { :name => "大连"},
+  { :name => "太原"},
+  { :name => "上海"},
+])
+Product.create!([
+  { :name => "出境跟团游" },
+  { :name => "国内跟团游" },
+  { :name => "自由人" },
+  { :name => "签证" },
+])
+Destcat.create!([
+  { :name => "美洲", :dests_attributes => [
+    { :name => "美国"  },
+    { :name => "巴西"  },
+    { :name => "阿根廷"  },
+    { :name => "加拿大"  },
+  ]},
+  { :name => "欧洲", :dests_attributes => [
+    { :name => "英国"  },
+    { :name => "德国"  },
+    { :name => "意大利"  },
+    { :name => "爱尔兰"  },
+    { :name => "马其顿"  },
+    { :name => "荷兰"  },
+    { :name => "葡萄牙"  },
+    { :name => "希腊"  },
+    { :name => "丹麦"  },
+    { :name => "波兰"  },
+    { :name => "瑞典"  },
+    { :name => "挪威"  },
+    { :name => "比利时"  },
+    { :name => "奥地利"  },
+    { :name => "马尔他"  },
+    { :name => "匈牙利"  },
+    { :name => "冰岛"  },
+  ]},
+  { :name => "大洋洲", :dests_attributes => [
+    { :name => "关岛" },
+    { :name => "澳大利亚" },
+    { :name => "汤加" },
+    { :name => "马绍尔群岛" },
+    { :name => "美属萨摩亚" },
+    { :name => "图瓦卢" },
+    { :name => "所罗门群岛" },
+    { :name => "新西兰" },
+    { :name => "瓦努阿图" },
+  ]},
+  { :name => "中东非洲", :dests_attributes => [
+    { :name => "巴勒斯坦" },
+    { :name => "以色列" },
+    { :name => "黎巴嫩" },
+    { :name => "埃及" },
+    { :name => "沙特" },
+    { :name => "约旦" },
+  ]},
+  { :name => "东南亚", :dests_attributes => [
+    { :name => "泰国"  },
+    { :name => "新加坡"  },
+    { :name => "马来西亚"  },
+    { :name => "菲律宾"  },
+  ]},
+  { :name => "南亚" },
+  { :name => "日韩朝鲜", :dests_attributes => [
+    { :name => "日本"  },
+    { :name => "韩国"  },
+    { :name => "朝鲜"  },
+  ]},
+  { :name => "马代" },
+  { :name => "塞班" },
+  { :name => "亚洲及其他", :dests_attributes => [
+    { :name => "中国" },
+    { :name => "广东" },
+    { :name => "上海" },
+  ]},
+  { :name => "港澳台", :dests_attributes => [
+    { :name => "香港" },
+    { :name => "澳门" },
+    { :name => "台湾" },
+  ]},
+])
+Linetype.create!([
+  { :name => "周边" },
+  { :name => "特价" },
+  { :name => "海岛" },
+  { :name => "亲子" },
+  { :name => "包机" },
+  { :name => "修学" },
+  { :name => "专列" },
+])
