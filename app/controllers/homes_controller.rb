@@ -9,7 +9,9 @@ class HomesController < ApplicationController
   end
 
   def quick_search
-    data = Chufa.where(["name like ?","%#{params[:q]}%"])
+    data = []
+    data = Product.where(["name like ?","%#{params[:q]}%"])  if params[:type] == "product"
+    #data = Chufa.where(["name like ?","%#{params[:q]}%"])
     render_json data
   end
 

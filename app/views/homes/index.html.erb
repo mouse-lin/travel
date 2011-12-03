@@ -2,6 +2,7 @@
     jQuery(document).ready(function(){
         //表格校验开始
         jQuery("#formID").validationEngine();
+        jQuery("#formIDS").validationEngine();
 
         //日期选择定义
         $("#dateEnd").glDatePicker({
@@ -26,9 +27,29 @@
                  );
            }
         });
+        autocompleteSearch("#product","/homes/quick_search.json?type=product");
+       //自动补全
+       // $("#idSearchList").autocomplete("/homes/quick_search.json?type=",{ 
+       //     max:12,
+       //     delay:1,
+       //     dataType: "json",
+       //     parse: function(data) {  
+       //       return $.map(eval(data), function(row) {  
+       //           return {  
+       //                data: row,  
+       //                result: row.name
+       //             }  
+       //         });
+       //     },  
+       //     formatItem: function(item) {  
+       //         return "<font color=green>" + item.id + "</font>&nbsp;(" + item.name + ")";  
+       //     },  
+       // });
+    });
 
-        //自动补全
-        $("#idSearchList").autocomplete("/homes/quick_search.json?type=",{ 
+    //autocomplete扩展方法
+    function autocompleteSearch(dom,url,itemString){
+        $(dom).autocomplete(url,{ 
             max:12,
             delay:1,
             dataType: "json",
@@ -41,10 +62,13 @@
                 });
             },  
             formatItem: function(item) {  
-                return "<font color=green>" + item.id + "</font>&nbsp;(" + item.name + ")";  
+                if(!itemString)
+                  return "<font color=green>" + item.id + "</font>&nbsp;(" + item.name + ")";  
+                else
+                  return itemString;
             },  
         });
-    });
+    }
 </script>
 
 <div class="wrapper col3">
@@ -54,6 +78,7 @@
         <ul>
           <li>
             <form id="formID" class="formular" method="post" action="">
+            <b>详细搜索栏</b><br>
                 产品分类<font readonly color="red">*</font>：<input class="validate[required[alertProduct]] "  name="product" id="product"></input>
                 出发地 ：<input type="text"></input>
                 目的地：<input type="text"></input>
@@ -62,7 +87,10 @@
                 出团时间止：<input class="validate[custom[date]]" name="dateEnd" id="dateEnd"></input>
                 天数：<input type="text" readonly></input>
                 价格：<input type="text" readonly></input>
-                ======<br>
+                <button>高级搜索</button>
+            </form>
+            <form id="formIDS" class="formular" method="post" action="">
+             <b>快速搜索栏:</b><br>
                 线路编号：<input type="text" id="idSearchList" name="search"></input>
                 线路名称：<input type="text"></input>
                 品牌编号：<input type="text"></input>
