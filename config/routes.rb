@@ -3,6 +3,7 @@ Travel::Application.routes.draw do
   resources :homes do
     collection do
       get "line_detail"
+      get "quick_search"
     end
   end
   

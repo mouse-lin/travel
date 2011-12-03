@@ -26,6 +26,24 @@
                  );
            }
         });
+
+        //自动补全
+        $("#idSearchList").autocomplete("/homes/quick_search.json?type=",{ 
+            max:12,
+            delay:1,
+            dataType: "json",
+            parse: function(data) {  
+              return $.map(eval(data), function(row) {  
+                  return {  
+                       data: row,  
+                       result: row.name
+                    }  
+                });
+            },  
+            formatItem: function(item) {  
+                return "<font color=green>" + item.id + "</font>&nbsp;(" + item.name + ")";  
+            },  
+        });
     });
 </script>
 
@@ -36,7 +54,7 @@
         <ul>
           <li>
             <form id="formID" class="formular" method="post" action="">
-                产品分类<font color="red">*</font>：<input class="validate[required[alertProduct]] "  name="product" id="product"></input>
+                产品分类<font readonly color="red">*</font>：<input class="validate[required[alertProduct]] "  name="product" id="product"></input>
                 出发地 ：<input type="text"></input>
                 目的地：<input type="text"></input>
                 线路路线：<input type="text"></input>
@@ -45,8 +63,8 @@
                 天数：<input type="text" readonly></input>
                 价格：<input type="text" readonly></input>
                 ======<br>
-                线路编号：<input type="text"></input>
-                关键字：<input type="text"></input>
+                线路编号：<input type="text" id="idSearchList" name="search"></input>
+                线路名称：<input type="text"></input>
                 品牌编号：<input type="text"></input>
             <button>快速查找</button>
             </form>
