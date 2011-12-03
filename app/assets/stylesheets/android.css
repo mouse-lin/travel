@@ -1,12 +1,3 @@
-/*
-	glDatePicker style inspired by the calendar app in FireFly 3.0 rom
-
-	http://code.gautamlad.com/glDatePicker/
-	https://github.com/glad/glDatePicker/
-	http://forum.xda-developers.com/showthread.php?t=914284
-*/
-
-/* Calendar container div */
 .gldp-android
 {
 	float:left;
@@ -35,7 +26,7 @@
 {
 	margin:0;
 	padding:0;
-	width:33px;
+	width:40px;
 	text-align:center;
 }
 
@@ -61,7 +52,6 @@
 {
 	background-color:#424852;
 	color:#ddd;
-	font-size:0.8em;
 }
 
 /* Selectable days */

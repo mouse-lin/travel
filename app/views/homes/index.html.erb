@@ -77,21 +77,21 @@
       <div class="column2">
         <ul>
           <li>
-            <form id="formID" class="formular" method="post" action="">
+            <form id="formID" class="formular" action="">
             <b>详细搜索栏</b><br>
-                产品分类<font readonly color="red">*</font>：<input class="validate[required[alertProduct]] "  name="product" id="product"></input>
-                出发地 ：<input type="text"></input>
-                目的地：<input type="text"></input>
-                线路路线：<input type="text"></input>
-                出团时间起：<input class="validate[custom[date]]" name="dateStart" id="dateStart"></input>
-                出团时间止：<input class="validate[custom[date]]" name="dateEnd" id="dateEnd"></input>
+                产品分类<font  color="red">*</font>：<input readonly class="validate[required[alertProduct]] "  name="product" id="product"></input>
+                出发地 ：<input type="text" readonly></input>
+                目的地：<input type="text" readonly></input>
+                线路类型：<input type="text" readonly></input>
                 天数：<input type="text" readonly></input>
                 价格：<input type="text" readonly></input>
+                出团时间起：<input  readonly name="dateStart" id="dateStart"></input>
+                出团时间止：<input  readonly name="dateEnd" id="dateEnd"></input>
                 <button>高级搜索</button>
             </form>
             <form id="formIDS" class="formular" method="post" action="">
              <b>快速搜索栏:</b><br>
-                线路编号：<input type="text" id="idSearchList" name="search"></input>
+                线路编号：<input type="text" id="lineNumber"></input>
                 线路名称：<input type="text"></input>
                 品牌编号：<input type="text"></input>
             <button>快速查找</button>
