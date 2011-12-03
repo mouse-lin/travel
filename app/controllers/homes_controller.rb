@@ -13,9 +13,6 @@ class HomesController < ApplicationController
   def autocomplete_search
     data = []
     data = params[:model].classify.constantize.where(["name like ?","%#{params[:q]}%"])
-    render_json data
-  end
-
 
   #快速查找
   def quick_search
