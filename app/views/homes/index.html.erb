@@ -54,11 +54,12 @@
                     $(".search-linetype").val(value);
                 }
             }
-        })
+        });
 
         //表格校验开始
         jGrowl = { open: false };
         jQuery("#formID").validationEngine();
+        jQuery("#formIDS").validationEngine();
 
         //日期选择定义
         $("#dateEnd").glDatePicker({
@@ -84,14 +85,10 @@
                  );
            }
         });
-
         quickSearchjGrowl(); 
         $.Move("quickSearchjGrowlWindow");
     });
 
-        quickSearchjGrowl(); 
-        $.Move("quickSearchjGrowlWindow");
-    });
 
 
     //autocomplete扩展方法
