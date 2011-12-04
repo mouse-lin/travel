@@ -59,7 +59,6 @@
         //表格校验开始
         jGrowl = { open: false };
         jQuery("#formID").validationEngine();
-        jQuery("#formIDS").validationEngine();
 
         //日期选择定义
         $("#dateEnd").glDatePicker({
@@ -85,6 +84,7 @@
                  );
            }
         });
+
         quickSearchjGrowl(); 
         $.Move("quickSearchjGrowlWindow");
     });
@@ -175,6 +175,7 @@
                 出团时间止：<input  readonly name="dateEnd" id="dateEnd"></input>
                 <button>高级搜索</button>
             </form>
+
           </li>
         </ul>
         <br class="clear" />
