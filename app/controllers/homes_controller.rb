@@ -13,6 +13,7 @@ class HomesController < ApplicationController
   def autocomplete_search
     data = []
     data = params[:model].classify.constantize.where(["name like ?","%#{params[:q]}%"])
+  end
 
   #快速查找
   def quick_search
@@ -37,7 +38,5 @@ class HomesController < ApplicationController
     flash[:pifa_name] = pifa_name
 
     redirect_to :controller => "homes" 
-
   end
-
 end
