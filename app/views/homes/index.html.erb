@@ -1,6 +1,6 @@
 <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function(){
-        //其他选择
+        //其他选择 -- 彬
         $(".search-product").singleTriggle({ 
             children : ["出境跟团游", "国内跟团游", "自由人", "签证"],
             callback : { 
@@ -124,34 +124,45 @@
 
     //查询拖放窗口
     function quickSearchjGrowl(){ 
+        /* 前台使用快速搜索代码  --> 复制这里的代码可以随时在html.erb中使用
+        <%= form_tag "/homes/quick_search", :id => "quickSearch", :class => "quickSearch", :method => "get" do %>
+        产品分类<font  color="red">*</font>：
+        <%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :value => flash[:product_type], :size => 20 %><br>
+        线路编号：
+        <%=text_field :search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %><br>
+        品牌编号：
+        <%=text_field :search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>
+        <button>确定</button>
+        */
+
         if(!jGrowl.open){  
-         var form_start = '<%= form_tag "/homes/quick_search", :id => "quickSearch", :class => "quickSearch", :method => "get" do %>';
-         var product = '产品分类<font  color="red">*</font>：<%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :value => flash[:product_type], :size => 20 %><br>';
+            var form_start = '<%= form_tag "/homes/quick_search", :id => "quickSearch", :class => "quickSearch", :method => "get" do %>';
+            var product = '产品分类<font  color="red">*</font>：<%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :value => flash[:product_type], :size => 20 %><br>';
 
-         var line_name = '线路名称：<%=text_field :search, :line_name, :id =>"lineName",:value => flash[:line_name], :size => 20 %><br>';
-         var line_number = '线路编号：<%=text_field :search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %><br>';
-         var pifa_name = '品牌编号：<%=text_field :search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>';
-         var button='<button>确定</button>';
-         var form_end = '<% end %>';
+            var line_name = '线路名称：<%=text_field :search, :line_name, :id =>"lineName",:value => flash[:line_name], :size => 20 %><br>';
+            var line_number = '线路编号：<%=text_field :search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %><br>';
+            var pifa_name = '品牌编号：<%=text_field :search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>';
+            var button='<button>确定</button>';
+            var form_end = '<% end %>';
 
-         var title="快速查询";
-         var content_string = form_start + product + line_number + line_name + pifa_name +  button + form_end;
-         return $("#quickSearchjGrowlWindow").jGrowl(content_string,{ 
-             sticky: true,
-             header: title,
-             close: function(){ 
-                 jGrowl.open = false;
-             },
-             afterOpen: function(){ 
-                 jGrowl.open = true;
-                 initForm();
-             },
-   					 nimateOpen: { 
-						     height: "show",
-						     width: "show"
-					   },
-         });
-         }
+            var title="快速查询";
+            var content_string = form_start + product + line_number + line_name + pifa_name +  button + form_end;
+            return $("#quickSearchjGrowlWindow").jGrowl(content_string,{ 
+                sticky: true,
+                header: title,
+                close: function(){ 
+                    jGrowl.open = false;
+                },
+                afterOpen: function(){ 
+                    jGrowl.open = true;
+                    initForm();
+                },
+   			   		 nimateOpen: { 
+				   		     height: "show",
+				   		     width: "show"
+				   	   },
+            });
+        }
     }
 </script>
 
