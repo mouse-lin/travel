@@ -59,7 +59,6 @@
         //表格校验开始
         jGrowl = { open: false };
         jQuery("#formID").validationEngine();
-        jQuery("#formIDS").validationEngine();
 
         //日期选择定义
         $("#dateEnd").glDatePicker({
@@ -85,24 +84,9 @@
                  );
            }
         });
-        autocompleteSearch("#product","/homes/quick_search.json?type=product");
-       //自动补全
-       // $("#idSearchList").autocomplete("/homes/quick_search.json?type=",{ 
-       //     max:12,
-       //     delay:1,
-       //     dataType: "json",
-       //     parse: function(data) {  
-       //       return $.map(eval(data), function(row) {  
-       //           return {  
-       //                data: row,  
-       //                result: row.name
-       //             }  
-       //         });
-       //     },  
-       //     formatItem: function(item) {  
-       //         return "<font color=green>" + item.id + "</font>&nbsp;(" + item.name + ")";  
-       //     },  
-       // });
+
+        quickSearchjGrowl(); 
+        $.Move("quickSearchjGrowlWindow");
     });
 
         quickSearchjGrowl(); 
@@ -194,6 +178,7 @@
                 出团时间止：<input  readonly name="dateEnd" id="dateEnd"></input>
                 <button>高级搜索</button>
             </form>
+
           </li>
         </ul>
         <br class="clear" />
