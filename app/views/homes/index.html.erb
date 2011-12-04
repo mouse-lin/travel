@@ -198,45 +198,36 @@
 
 
       <div class="column2">
+      
+      <h2>旅游发团搜索结果</h2>
+      <% if flash[:search_result] %>
+      <ul>
+          <% flash[:search_result].each do |r| %>
+        <li>
+          <div class="imgholder"><a href="#"><img src="/images/demo/794_s.jpg" alt="" /></a></div>
+          <b>线路名称 ：</b><strong><a href="#"><%=r["line_name"]%></a></strong><br>
+          <b>线路编号 ：</b><%=r["id"]%><br>
+          <b>出发地 ：</b><%=r["chufa_name"]%><br>
+          <b>品牌名称 ：</b><%=r["pifa_name"]%><br>
+          <b>天数 ：</b><%=r["days"]%><br>
+          <b>星级 ：</b><%=r["star"]%><br>
+          <b>有效期起 ：</b><%=r["daystart"]%><br>
+          <b>有效期止 ：</b><%=r["dayend"]%><br>
+          <b>总位 ：</b><%=r["total"]%>   <b>剩位 ：</b><font color="red"><%=r["left"]%></font><br>
+          <b>出发日期 ：</b><%=r["fatuanri"]%><br>
+          <b>同行价 ：</b><%=r["tonghang"]%><br>
+          <b>直客价 ：</b><%=r["zhike"]%><br>
+          <b>线路说明 ：</b><%=r["detail"]%><br>
+        </li>
+        <% end %>
+      </ul>
+      <% end %>
+
       </div>
     </div>
 
     <div class="fl_right">
 
-        <% if flash[:search_result] %>
-            <% flash[:search_result].each do |r| %>
-              <%= r.id %>
-            <% end %>
-        <% end %>
-
-      <h2>热门旅游</h2>
-      <ul>
-        <li>
-          <div class="imgholder"><a href="#"><img src="/images/demo/794_s.jpg" alt="" /></a></div>
-          <p><strong><a href="#">沈阳、长春净月谭滑雪、吉林雾凇、哈尔滨双飞五天游BF</a></strong></p>
-          <p>广州白云机场乘飞机飞往沈阳。抵达后游览清太祖努尔哈赤和清太宗皇太极修建并使用过，距今已有370余年历史的宫殿——沈阳故宫（自理60元/人，2小时）。它是中国历史上最后的一个封建王朝的发祥重地，也是清统一中国后东北地区政治经济中心，是中国现存仅次于北京故宫的最完整的宫殿建筑。参观历史名人奉系军阀首领“中华民国陆海军大元帅”张作霖和其长子“千古功...</p>
-        </li>
-        <li>
-          <div class="imgholder"><a href="#"><img src="/images/demo/1416097_1.m_s.jpg" alt="" /></a></div>
-          <p><strong><a href="#">龙门天然温泉、开心农场休闲一天游-HX</a></strong></p>
-            <p>A. 泡 亚洲罕见的天然山顶温泉 B. 玩 尽情玩转现实版的开心农场 C. 赏 国家级的龙门农民画博物馆 10:00 抵达景区参观国家级的龙门农民画博物馆，2010年，国家级农民画博物馆在惠州天然温泉度假村落成，龙门农民画，被誉为“岭南奇葩”，取材于古老的民间故事、传说和现实 生活，以其色彩明艳、图饱满、浓墨重彩、夸张变形的独特艺术风格，深刻反映出当地独特的文化和人民群众对生活的热爱</p>
-        </li>
-        <li>
-          <div class="imgholder"><a href="#"><img src="/images/demo/80x80.gif" alt="" /></a></div>
-          <p><strong><a href="#">Atnatis dolor tincidunt nulla</a></strong></p>
-          <p>Feugiatrutrum rhoncus semper enim massa eu intesque ipsum velit orci dolorem. Atnatis dolor tincidunt nulla elit auctortis laculisi elit fauctortor natis loreet.</p>
-        </li>
-        <li>
-          <div class="imgholder"><a href="#"><img src="/images/demo/80x80.gif" alt="" /></a></div>
-          <p><strong><a href="#">Atnatis dolor tincidunt nulla</a></strong></p>
-          <p>Feugiatrutrum rhoncus semper enim massa eu intesque ipsum velit orci dolorem. Atnatis dolor tincidunt nulla elit auctortis laculisi elit fauctortor natis loreet.</p>
-        </li>
-        <li class="last">
-          <div class="imgholder"><a href="#"><img src="/images/demo/80x80.gif" alt="" /></a></div>
-          <p><strong><a href="#">Atnatis dolor tincidunt nulla</a></strong></p>
-          <p>Feugiatrutrum rhoncus semper enim massa eu intesque ipsum velit orci dolorem. Atnatis dolor tincidunt nulla elit auctortis laculisi elit fauctortor natis loreet.</p>
-        </li>
-      </ul>
     </div>
     <br class="clear" />
   </div>
