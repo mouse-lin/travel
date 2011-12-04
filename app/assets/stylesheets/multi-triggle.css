@@ -1,0 +1,14 @@
+.multi-contain { 
+    width : 300px;
+    display : none;
+    position : absolute;
+    background-color : black;
+}
+.multi-first { 
+    border-right : 1px black solid;
+}
+.multi-second {
+}
+.multi-index { 
+    display : none;
+}

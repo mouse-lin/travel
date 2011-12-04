@@ -130,7 +130,7 @@ ActiveRecord::Schema.define(:version => 20111202152410) do
     t.integer  "pifa_id"
     t.string   "songqiandi"
     t.string   "songqianguo"
-    t.string   "visatype"
+    t.integer  "visatype_id"
     t.text     "document"
     t.integer  "days"
     t.text     "detail"

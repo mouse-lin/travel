@@ -2,6 +2,7 @@ class HomesController < ApplicationController
 
   def index
     @index = "active"
+    @products = Product.all
   end
 
   def line_detail

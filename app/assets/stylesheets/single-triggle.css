@@ -1,0 +1,9 @@
+.search-contain { 
+    display : none;
+    background-color : red;
+    position : absolute;
+}
+
+.item .index { 
+    display : none;
+}
