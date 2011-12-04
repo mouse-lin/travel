@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111202152410) do
+ActiveRecord::Schema.define(:version => 20111204101052) do
 
   create_table "chufas", :force => true do |t|
     t.string   "name"
@@ -50,6 +50,20 @@ ActiveRecord::Schema.define(:version => 20111202152410) do
   add_index "chujings", ["linename_id"], :name => "index_chujings_on_linename_id"
   add_index "chujings", ["pifa_id"], :name => "index_chujings_on_pifa_id"
 
+  create_table "chujings_dests", :force => true do |t|
+    t.integer  "chujing_id"
+    t.integer  "dest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "chujings_linetypes", :force => true do |t|
+    t.integer  "chujing_id"
+    t.integer  "linetype_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "destcats", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -64,6 +78,27 @@ ActiveRecord::Schema.define(:version => 20111202152410) do
   end
 
   add_index "dests", ["destcat_id"], :name => "index_dests_on_destcat_id"
+
+  create_table "dests_guoneis", :force => true do |t|
+    t.integer  "guonei_id"
+    t.integer  "dest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "dests_qianzhengs", :force => true do |t|
+    t.integer  "qianzheng_id"
+    t.integer  "dest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "dests_zhiyous", :force => true do |t|
+    t.integer  "zhiyou_id"
+    t.integer  "dest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "guoneifatuans", :force => true do |t|
     t.integer  "guonei_id"
@@ -96,6 +131,20 @@ ActiveRecord::Schema.define(:version => 20111202152410) do
   add_index "guoneis", ["linename_id"], :name => "index_guoneis_on_linename_id"
   add_index "guoneis", ["pifa_id"], :name => "index_guoneis_on_pifa_id"
 
+  create_table "guoneis_dests", :force => true do |t|
+    t.integer  "guonei_id"
+    t.integer  "dest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "guoneis_linetypes", :force => true do |t|
+    t.integer  "guonei_id"
+    t.integer  "linetype_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "houses", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -110,6 +159,13 @@ ActiveRecord::Schema.define(:version => 20111202152410) do
 
   create_table "linetypes", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "linetypes_zhiyous", :force => true do |t|
+    t.integer  "zhiyou_id"
+    t.integer  "lientype_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -144,6 +200,13 @@ ActiveRecord::Schema.define(:version => 20111202152410) do
 
   add_index "qianzhengs", ["pifa_id"], :name => "index_qianzhengs_on_pifa_id"
 
+  create_table "qianzhengs_dests", :force => true do |t|
+    t.integer  "qianzheng_id"
+    t.integer  "dest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "stars", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -155,6 +218,26 @@ ActiveRecord::Schema.define(:version => 20111202152410) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "zhiyoufatuans", :force => true do |t|
+    t.integer  "guonei_id"
+    t.string   "fatuanri"
+    t.integer  "star_id"
+    t.integer  "house_id"
+    t.string   "foods"
+    t.integer  "left"
+    t.integer  "total"
+    t.integer  "tonghang"
+    t.integer  "zhike"
+    t.time     "daystart"
+    t.time     "dayend"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "zhiyoufatuans", ["guonei_id"], :name => "index_zhiyoufatuans_on_guonei_id"
+  add_index "zhiyoufatuans", ["house_id"], :name => "index_zhiyoufatuans_on_house_id"
+  add_index "zhiyoufatuans", ["star_id"], :name => "index_zhiyoufatuans_on_star_id"
 
   create_table "zhiyous", :force => true do |t|
     t.integer  "pifa_id"
@@ -169,5 +252,19 @@ ActiveRecord::Schema.define(:version => 20111202152410) do
   add_index "zhiyous", ["chufa_id"], :name => "index_zhiyous_on_chufa_id"
   add_index "zhiyous", ["linename_id"], :name => "index_zhiyous_on_linename_id"
   add_index "zhiyous", ["pifa_id"], :name => "index_zhiyous_on_pifa_id"
+
+  create_table "zhiyous_dests", :force => true do |t|
+    t.integer  "zhiyou_id"
+    t.integer  "dest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "zhiyous_linetypes", :force => true do |t|
+    t.integer  "zhiyou_id"
+    t.integer  "linetype_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

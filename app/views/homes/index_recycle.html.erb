@@ -1,63 +1,7 @@
 <script type="text/javascript" charset="utf-8">
     jQuery(document).ready(function(){
-        //其他选择
-        $(".search-product").singleTriggle({ 
-            children : ["出境跟团游", "国内跟团游", "自由人", "签证"],
-            callback : { 
-                click : function (el, value, event) { 
-                    $(".search-product").val(value);
-                }
-            }
-        })
-
-        $(".search-chufa").singleTriggle({ 
-            children : [
-                "北京", "天津", "沈阳", "石家庄", "青岛", "大连", "太原", "上海"
-            ],
-            callback : { 
-                click : function (el, value, event) { 
-                    $(".search-chufa").val(value);
-                }
-            }
-        });
-
-        $(".search-descat").multiTriggle ({ 
-            children : [
-                { value : "欧洲"      },
-                { value : "美洲"      },
-                { value : "大洋洲"    },
-                { value : "中东非洲"  },
-                { value : "东南亚", children : [
-                    "泰国", "新加坡", "马来西亚", "菲律宾", "印度尼西亚", "越南", "柬埔寨", "缅甸", "老挝", "文莱",
-                    "曼谷", "清迈", "云顶", "沙巴", "槟城", "宿雾", "保和", "巴厘", "兰卡威", "绿中海", "邦咯岛", "芭提雅",
-                    "普吉岛", "苏梅岛", "吉隆坡", "波德申", "马尼拉", "长滩岛", "巴拉望", "雅加达", "珍拉丁湾"
-                ] },
-                { value : "南亚"      },
-                { value : "日韩朝鲜"  },
-                { value : "马代"      },
-                { value : "塞班"      },
-                { value : "亚洲其它"  },
-                { value : "港澳台"    }
-            ],
-            callback : {
-                save : function (value, event) { 
-                    $(".search-descat").val(value);
-                }
-            }
-        });
-
-        $(".search-linetype").singleTriggle ({ 
-            children : [ "周边", "特价", "海岛", "亲子", "包机", "蜜月", "自驾", "修学", "专列", "夕阳红", "高尔夫" ],
-            select : 'multi',
-            callback : { 
-                save : function (value, event) { 
-                    $(".search-linetype").val(value);
-                }
-            }
-        })
-
         //表格校验开始
-        jGrowl = { open: false };
+        //jQuery("#quickSearch").validationEngine();
         jQuery("#formID").validationEngine();
 
         //日期选择定义
@@ -72,7 +16,6 @@
                  );
            }
         });
-
         $("#dateStart").glDatePicker({
             cssName: "android",
             onChange: function(target, newDate){
@@ -85,8 +28,11 @@
            }
         });
 
-        quickSearchjGrowl(); 
-        $.Move("quickSearchjGrowlWindow");
+        searchjGrowl(); 
+        $.Move("searchjGrowlWindow");
+        //autocomplete定义标签
+       // autocompleteSearch("#pifaName","/homes/autocomplete_search.json?model=Pifa");
+       // autocompleteSearch("#lineName","/homes/autocomplete_search.json?model=Linename");
     });
 
     //autocomplete扩展方法
@@ -112,48 +58,31 @@
         });
     }
 
-    //定义函数
-    function initForm(){ 
+    function mouse(){ 
         jQuery("#quickSearch").validationEngine();
-        //autocomplete定义标签
         autocompleteSearch("#pifaName","/homes/autocomplete_search.json?model=Pifa");
         autocompleteSearch("#lineName","/homes/autocomplete_search.json?model=Linename");
     }
 
     //查询拖放窗口
-    function quickSearchjGrowl(){ 
-        if(!jGrowl.open){  
-         var form_start = '<%= form_tag "/homes/quick_search", :id => "quickSearch", :class => "quickSearch", :method => "get" do %>';
-         var product = '产品分类<font  color="red">*</font>：<%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :value => flash[:product_type], :size => 20 %><br>';
+    function searchjGrowl(){ 
+        var form_start = '<%= form_tag "/homes/quick_search", :id => "quickSearch", :class => "formular", :method => "get" do %>';
+        var product = '产品分类<font  color="red">*</font>：<%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :value => flash[:product_type], :size => 20 %>';
 
-         var line_name = '线路名称：<%=text_field :search, :line_name, :id =>"lineName",:value => flash[:line_name], :size => 20 %><br>';
-         var line_number = '线路编号：<%=text_field :search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %><br>';
-         var pifa_name = '品牌编号：<%=text_field :search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>';
-         var button='<button>确定</button>';
-         var form_end = '<% end %>';
-
-         var title="快速查询";
-         var content_string = form_start + product + line_number + line_name + pifa_name +  button + form_end;
-         return $("#quickSearchjGrowlWindow").jGrowl(content_string,{ 
-             sticky: true,
-             header: title,
-             close: function(){ 
-                 jGrowl.open = false;
-             },
-             afterOpen: function(){ 
-                 jGrowl.open = true;
-                 initForm();
-             },
-   					 nimateOpen: { 
-						     height: "show",
-						     width: "show"
-					   },
-         });
-         }
+        var line_name = '线路名称：<%=text_field :search, :line_name, :id =>"lineName",:value => flash[:line_name], :size => 20 %>'
+        var button='<button>确定</button>';
+        var form_end = '<% end %>';
+        var title="快速查询";
+        return $("#searchjGrowlWindow").jGrowl(form_start + product + line_name + button + form_end,{ 
+            sticky: true,
+            header: title,
+            width: "200",
+        });
     }
+
 </script>
 
-      <div id="quickSearchjGrowlWindow"></div>
+      <div id="searchjGrowlWindow"></div>
 
 <div class="wrapper col3">
   <div id="homecontent">
@@ -161,18 +90,31 @@
       <div class="column2">
         <ul>
           <li>
+              <button onclick=mouse()>查询按钮</button>
             <form id="formID" class="formular" action="">
             <b>详细搜索栏</b><br>
-                产品分类<font  color="red">*</font>：<input readonly class="validate[required[alertProduct]] search-product"  name="product" id="product"></input>
-                出发地 ：<input class='search-chufa' type="text" readonly></input>
-                目的地：<input class='search-descat' type="text" readonly></input>
-                线路类型：<input class='search-linetype' type="text" readonly></input>
+                产品分类<font  color='red'>*</font>：<input readonly class='validate[required]'  name='product' id='product'></input>
+                出发地 ：<input type="text" readonly></input>
+                目的地：<input type="text" readonly></input>
+                线路类型：<input type="text" readonly></input>
                 天数：<input type="text" readonly></input>
                 价格：<input type="text" readonly></input>
                 出团时间起：<input  readonly name="dateStart" id="dateStart"></input>
                 出团时间止：<input  readonly name="dateEnd" id="dateEnd"></input>
                 <button>高级搜索</button>
             </form>
+
+            <%= form_tag '/homes/quick_search', :id => 'quickSearch', :class => 'formular', :method => 'get' do %>
+               <b>快速搜索栏:</b><br>
+                产品分类<font  color="red">*</font>：
+                <%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :value => flash[:product_type], :size => 20 %>
+                线路编号：
+                <%=text_field :search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %>
+                线路名称：<%=text_field :search, :line_name, :id =>"lineName",:value => flash[:line_name], :size => 20 %>
+                品牌编号：
+                <%=text_field :search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %>
+              <button>快速查找</button>
+            <%end%>
 
           </li>
         </ul>

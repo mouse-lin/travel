@@ -6,7 +6,9 @@
 <meta http-equiv="imagetoolbar" content="no" />
 <%= stylesheet_link_tag    "application" %>
 <%= javascript_include_tag "application" %>
+
 <%= javascript_include_tag "jquery-1.6.min.js" %>
+
 <%= javascript_include_tag "jquery.slidepanel.setup.js" %>
 <%= javascript_include_tag "jquery.cycle.min.js" %>
 <%= javascript_include_tag "jquery.cycle.setup.js" %>
@@ -18,12 +20,18 @@
 <!时间选择>
 <%= javascript_include_tag "glDatePicker.js" %>
 
+
 <!即时搜索>
 <%= javascript_include_tag "jquery.autocomplete.js" %>
 
 <!其他选择>
 <%= javascript_include_tag "single-triggle.js" %>
 <%= javascript_include_tag "multi-triggle.js" %>
+
+<!黑色弹出窗口 >
+<%= javascript_include_tag "jquery.jgrowl.js" %>
+<%= javascript_include_tag "move.js" %>
+
 
 <%= csrf_meta_tags %>
 </head>
@@ -102,7 +110,7 @@
     <div id="topnav">
       <ul>
         <li class = <%=@index%> ><a href="/">首页</a></li>
-        <li class = <%=@line_detail%> ><a href="/homes/line_detail">旅游路线详细</a></li>
+        <li><a href="#" onclick=quickSearchjGrowl()>快速查询</a></li>
       </ul>
     </div>
     <br class="clear" />

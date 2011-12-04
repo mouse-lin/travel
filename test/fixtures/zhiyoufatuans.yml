@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  guonei: 
+  fatuanri: MyString
+  star: 
+  house: 
+  foods: MyString
+  left: 1
+  total: 1
+  tonghang: 1
+  zhike: 1
+  daystart: 2011-12-04 18:10:53
+  dayend: 2011-12-04 18:10:53
+
+two:
+  guonei: 
+  fatuanri: MyString
+  star: 
+  house: 
+  foods: MyString
+  left: 1
+  total: 1
+  tonghang: 1
+  zhike: 1
+  daystart: 2011-12-04 18:10:53
+  dayend: 2011-12-04 18:10:53
