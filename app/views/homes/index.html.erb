@@ -56,6 +56,7 @@
             }
         });
 
+        
         //表格校验开始
         jGrowl = { open: false };
         jQuery("#formID").validationEngine();
@@ -133,6 +134,7 @@
         品牌编号：
         <%=text_field :search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>
         <button>确定</button>
+        <%end%>
         */
 
         if(!jGrowl.open){  
@@ -164,6 +166,7 @@
             });
         }
     }
+
 </script>
 
       <div id="quickSearchjGrowlWindow"></div>
