@@ -19,7 +19,7 @@ end
 gem 'jquery-rails'
 
 gem 'therubyracer'
-gem "mongrel", ">=1.2.0.pre2"
+#gem "mongrel", ">=1.2.0.pre2"
 
 #gem 'therubyracer-heroku', '0.8.1.pre3' 
 #  gem 'pg'
