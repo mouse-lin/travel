@@ -1,9 +1,81 @@
 .search-contain { 
     display : none;
-    background-color : red;
     position : absolute;
+    background-color : white;
+    border : solid 1px #b9b9b9;
+}
+
+.search-contain td { 
+    margin : 8px;
+    padding : 10px;
+    border : none;
+}
+
+.search-contain td:hover { 
+    cursor : pointer;
+}
+
+.search-contain table { 
+    border : none;
+}
+
+.single-title { 
+    padding : 8px;
+    border-bottom : 1px solid #b9b9b9;
+}
+
+.single-number-value { 
+    display : none;
 }
 
 .item .index { 
     display : none;
+}
+
+.single-multi-value { 
+    margin-right : 4px;
+    margin-left : 8px;
+}
+
+.single-value { 
+    border-bottom : solid 1px #b9b9b9;
+    padding-right : 8px;
+    margin : 3px;
+}
+
+.single-save { 
+    cursor : pointer;
+    float : right;
+    margin-top : 4px;
+    margin-right : 6px;
+    margin-bottom : 4px;
+    padding : 4px;
+}
+
+.single-save:hover { 
+    padding : 2px 6px 6px 2px;
+}
+
+.single-cancel { 
+    cursor : pointer;
+    float : right;
+    margin-top : 4px;
+    margin-right : 6px;
+    margin-bottom : 4px;
+    padding : 4px;
+}
+
+.single-cancel:hover { 
+    padding : 2px 6px 6px 2px;
+}
+
+.single-remove { 
+    color : red;
+    cursor : default;
+    padding-top : 2px;
+    padding-left : 2px;
+}
+
+.single-remove:hover { 
+    padding : 1px;
 }

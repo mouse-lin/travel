@@ -1,14 +1,95 @@
 .multi-contain { 
-    width : 300px;
     display : none;
     position : absolute;
-    background-color : black;
+    background-color : white;
+    border : solid 1px #b9b9b9;
 }
-.multi-first { 
-    border-right : 1px black solid;
+
+.multi-contain td { 
+    margin : 4px;
+    padding : 5px;
+}
+
+.second-value { 
+    margin-right : 4px;
+    margin-left : 8px;
+}
+
+.multi-value { 
+    border-bottom : solid 1px #b9b9b9;
+    padding : 8px;
+    margin : 3px;
+}
+
+.multi-title { 
+    padding : 4px;
+    margin : 4px;
+    border-bottom : 1px solid #b9b9b9;
+}
+
+.multi-contain table { 
+    border : none;
+}
+
+.multi-contain .multi-first td { 
+    cursor : pointer;
+    border : none;
+}
+
+.multi-contain .multi-second td { 
+    cursor : pointer;
+    border : none;
+}
+
+#multi-td1 { 
+    border : none;
+    border-right : 1px solid #b9b9b9;
+}
+
+#multi-td2 { 
+    border : none;
+}
+
+.multi-first {
+    border : none;
 }
 .multi-second {
+    border : none;
 }
 .multi-index { 
     display : none;
+}
+.number-value { 
+    display : none;
+}
+.multi-save { 
+    cursor : pointer;
+    float : right;
+    margin-top : 4px;
+    margin-right : 6px;
+    margin-bottom : 4px;
+    padding : 4px;
+}
+.multi-save:hover { 
+    padding : 2px 6px 6px 2px;
+}
+.multi-cancel { 
+    cursor : pointer;
+    float : right;
+    margin-top : 4px;
+    margin-right : 6px;
+    margin-bottom : 4px;
+    padding : 4px;
+}
+.multi-cancel:hover { 
+    padding : 2px 6px 6px 2px;
+}
+.multi-remove { 
+    color : red;
+    cursor : default;
+    padding-top : 2px;
+    padding-left : 2px;
+}
+.multi-remove:hover { 
+    padding : 1px;
 }

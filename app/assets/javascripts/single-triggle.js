@@ -1,13 +1,18 @@
 (function ($) { 
     $.fn.singleTriggle = function (ops) { 
         var sm = $.fn.singleTriggle,
+            operateEl = this,
             ops = $.extend({}, sm.defaults, ops),
-            container = $("<div class='search-contain'><div class='single-value'></div><a class='single-number-value'></a><a class='single-save'>保存</a><a class='single-cancel'>取消</a></div>").appendTo("body"),
+            container = $("<div class='search-contain'><div class='single-title'>" + ops.title + "</div><div class='single-value'></div><a class='single-number-value'></a><a class='single-cancel'>取消</a><a class='single-save'>保存</a></div>").appendTo("body"),
             genItemsStr = function (items) { 
                 var str = "<table>"
-                $.each(items, function (i) { 
-                    str += "<tr><td class='item'><a class='index'>" + i + "</a>" + items[i] + "</td></tr>";
-                })
+                for(var i = 0; i < items.length / 4 | 0; i ++) { 
+                    str += "<tr>";
+                    for(var j = 0; j < 4 && i*4 + j < items.length; j ++) { 
+                        str += "<td class='item'><a class='index'>" + (i * 4 + j) + "</a>" + items[i*4 + j] + "</td>";
+                    }
+                    str += "</tr>";
+                }
                 return str + "</table>"
             },
             putValue = function (index) { 
@@ -17,14 +22,15 @@
                     if(number[i] == index) return;
                 }
                 
-                var el = $("<a class='multi-value'>" + ops.children[index] + "</a><a class='single-remove'>*</a>").appendTo(".single-value");
+                var el = $("<a class='single-multi-value'>" + ops.children[index] + "</a><a class='single-remove'>×</a>").appendTo(".single-value");
                 if(number.length == 1 && number[0] === "") {
                     numberEl.text(index);
                 } else { 
                     numberEl.text(numberEl.text() + "-" + index);
                 }
                 
-                el.next().click(function () { 
+                el.next().click(function (e) { 
+                    e.stopPropagation();
                     removeValue(el, index);
                 });
             },
@@ -60,6 +66,7 @@
             },
             listeners = function () { 
                 $(container).find(".item").click (function (e) { 
+                    e.stopPropagation();
                     var index = parseInt($(this).find(".index").text());
                     if(typeof ops.callback.click === "function") { 
                         ops.callback.click.call(ops.callback.scope || this, this, ops.children[index], e);
@@ -71,10 +78,16 @@
                         putValue(index);
                     }
                 });
+
+                $("body").click(function (e) { 
+                    if(!$(e.target).is(operateEl)) { 
+                        container.hide();
+                    }
+                });
             };
 
         if(typeof ops.children !== 'undefined') { 
-            $(container).prepend(genItemsStr(ops.children));
+            $(genItemsStr(ops.children)).insertAfter(container.find(".single-title"));
 
             $(container).find(".single-save").click(function (e) { 
                 if(typeof ops.callback.save == "function") { 
@@ -91,6 +104,8 @@
             if(ops.select == "single") { 
                 container.find(".single-value").hide();
                 container.find(".single-number-value").hide();
+                container.find(".single-save").hide();
+                container.find('.single-cancel').hide();
             }
             $(this).focus(function (e) { 
                 container.css("left", parseInt($(e.target).offset().left) + 50).css("top", parseInt($(e.target).offset().top) + 20).show();

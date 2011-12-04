@@ -1,22 +1,30 @@
 (function ($) {
     $.fn.multiTriggle = function (ops) {
         var mt = $.fn.multiTriggle,
+            operateEl = this,
             ops = $.extend({}, mt.defaults, ops), 
             container = $(
-                "<div class='multi-contain'> \
+                "<div class='multi-contain'><div class='multi-title'>" + ops.title + "</div> \
                     <table> \
-                        <td style='width:45%;'><table class='multi-first'></table></td> \
-                        <td style='width:50%;'><table class='multi-second'></table></td> \
+                        <td id='multi-td1' style='width:45%;'><table class='multi-first'></table></td> \
+                        <td id='multi-td2' style='width:50%;'><table class='multi-second'></table></td> \
                     </table> \
                     <div class='multi-value'></div><a class='number-value'></a> \
-                    <a class='multi-save'>保存</a><a class='multi-cancel'>取消</a> \
+                    <a class='multi-cancel'>取消</a><a class='multi-save'>保存</a> \
                 </div>"
             ).appendTo("body"),
             genFirstItems = function (items) { 
-                var str = "";
-                $.each(items, function (i) { 
-                    str += "<tr><td class='first-item'><a class='multi-index'>" + i + "</a>" + items[i].value + "</td></tr>";
-                });
+                var str = ""
+                for(var i = 0; i < items.length / 4 | 0; i ++) { 
+                    str += "<tr>";
+                    for(var j = 0; j < 4 && i*4 + j < items.length; j ++) { 
+                        str += "<td class='first-item'><a class='multi-index'>" + (i * 4 + j) + "</a>" + items[i*4 + j].value + "</td>";
+                    }
+                    str += "</tr>";
+                }
+                //var str = ""; $.each(items, function (i) { 
+                //    str += "<tr><td class='first-item'><a class='multi-index'>" + i + "</a>" + items[i].value + "</td></tr>";
+                //});
                 return str;
             },
             putFirstValue = function (el) { 
@@ -24,7 +32,7 @@
                     tmp = ops.children[index],
                     value = $(el).parents(".multi-contain").find('.multi-value');
                 value.empty();
-                value.append("<a class='first-value'>" + tmp.value + "</a>");
+                value.append("<a class='first-value'>" + tmp.value + ":" + "</a>");
                 $(el).parents(".multi-contain").find(".number-value").text(index);
             },
             putSecondValue = function (el) { 
@@ -38,8 +46,9 @@
                     if(number[i] == second)return;
                 }
                 
-                var el = $("<a class='second-value'>" + tmp + "</a><a class='multi-remove'>*</a>").appendTo(value);
-                el.next().click(function () { 
+                var el = $("<a class='second-value'>" + tmp + "</a><a class='multi-remove'>×</a>").appendTo(value);
+                el.next().click(function (e) { 
+                    e.stopPropagation();
                     removeSecondValue(el, second);
                 });
                 numberEl.text(numberEl.text() + "-" + second);
@@ -72,15 +81,23 @@
                     second = $(el).parents(".multi-contain").find('.multi-second');
                 if(typeof tmp.children !== "undefined") {
                     second.empty();
-                    $.each(tmp.children, function (i) { 
-                        var str = "<tr><td class='second-item'><a class='multi-index'>" + i + "</a>" + tmp.children[i] + "</td><tr>";
-                        second.append(str);
-                    });
+                    for(var i = 0; i < tmp.children.length / 4 | 0; i ++) { 
+                        var str = "<tr>";
+                        for(var j = 0; j < 4 && i*4 + j < tmp.children.length; j ++) { 
+                            str += "<td class='second-item'><a class='multi-index'>" + (i*4 + j) + "</a>" + tmp.children[i*4 + j] + "</td>"
+                        }
+                        second.append(str + "</tr>");
+                    }
+                    //$.each(tmp.children, function (i) { 
+                    //    var str = "<tr><td class='second-item'><a class='multi-index'>" + i + "</a>" + tmp.children[i] + "</td><tr>";
+                    //    second.append(str);
+                    //});
                 } else { 
                     second.empty();
                 }
 
                 $(second).find(".second-item").click(function (e) { 
+                    e.stopPropagation();
                     putSecondValue(this);
                 });
             };
@@ -88,18 +105,26 @@
         if(typeof ops.children !== 'undefined') { 
             $(container).find(".multi-first").append(genFirstItems(ops.children));
             $(container).find(".multi-first").find(".first-item").click(function (e) { 
+                e.stopPropagation();
                 putFirstValue(this);
                 genSecondItems(this);
             });
             $(container).find(".multi-save").click(function (e) { 
+                e.stopPropagation();
                 if(typeof ops.callback.save == "function") { 
                     ops.callback.save.call(ops.callback.scope || this, getMultiValues(), e);
                 }
                 $(container).hide();
             });
-            $(container).find(".multi-cancel").click(function () { 
+            $(container).find(".multi-cancel").click(function (e) { 
+                e.stopPropagation();
                 $(container).hide();
             })
+            $("body").click(function (e) { 
+                if(!$(e.target).is(operateEl)) { 
+                    container.hide();
+                }
+            });
         }
 
         $(this).click(function (e) {

@@ -3,6 +3,7 @@
         //其他选择 -- 彬
         $(".search-product").singleTriggle({ 
             children : ["出境跟团游", "国内跟团游", "自由人", "签证"],
+            title : '请选择产品类型',
             callback : { 
                 click : function (el, value, event) { 
                     $(".search-product").val(value);
@@ -14,6 +15,7 @@
             children : [
                 "北京", "天津", "沈阳", "石家庄", "青岛", "大连", "太原", "上海"
             ],
+            title : '请选择出发地',
             callback : { 
                 click : function (el, value, event) { 
                     $(".search-chufa").val(value);
@@ -39,6 +41,7 @@
                 { value : "亚洲其它"  },
                 { value : "港澳台"    }
             ],
+            title : '请选择目的地',
             callback : {
                 save : function (value, event) { 
                     $(".search-descat").val(value);
@@ -49,6 +52,7 @@
         $(".search-linetype").singleTriggle ({ 
             children : [ "周边", "特价", "海岛", "亲子", "包机", "蜜月", "自驾", "修学", "专列", "夕阳红", "高尔夫" ],
             select : 'multi',
+            title : '请选择路线类型',
             callback : { 
                 save : function (value, event) { 
                     $(".search-linetype").val(value);
