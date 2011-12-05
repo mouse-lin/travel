@@ -1,7 +1,7 @@
 class CreateZhiyoufatuans < ActiveRecord::Migration
   def change
     create_table :zhiyoufatuans do |t|
-      t.references :guonei
+      t.references :zhiyou
       t.string :fatuanri
       t.references :star
       t.references :house
@@ -15,7 +15,7 @@ class CreateZhiyoufatuans < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :zhiyoufatuans, :guonei_id
+    add_index :zhiyoufatuans, :zhiyou_id
     add_index :zhiyoufatuans, :star_id
     add_index :zhiyoufatuans, :house_id
   end

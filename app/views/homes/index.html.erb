@@ -91,7 +91,7 @@
         });
 
         quickSearchjGrowl(); 
-        $.Move("quickSearchjGrowlWindow");
+        //$.Move("quickSearchjGrowlWindow");
     });
 
 
@@ -130,7 +130,7 @@
     //查询拖放窗口
     function quickSearchjGrowl(){ 
         /* 前台使用快速搜索代码  --> 复制这里的代码可以随时在html.erb中使用
-        <%= form_tag "/homes/quick_search", :id => "quickSearch", :class => "quickSearch", :method => "get" do %>
+        <%= form_tag "/homes", :id => "quickSearch", :class => "quickSearch", :method => "get" do %>
         产品分类<font  color="red">*</font>：
         <%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :value => flash[:product_type], :size => 20 %><br>
         线路编号：
@@ -142,20 +142,21 @@
         */
 
         if(!jGrowl.open){  
-            var form_start = '<%= form_tag "/homes/quick_search", :id => "quickSearch", :class => "quickSearch", :method => "get" do %>';
+            var form_start = '<%= form_tag "/homes", :id => "quickSearch", :class => "quickSearch", :method => "get" do %>';
             var product = '产品分类<font  color="red">*</font>：<%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :value => flash[:product_type], :size => 20 %><br>';
 
-            var line_name = '线路名称：<%=text_field :search, :line_name, :id =>"lineName",:value => flash[:line_name], :size => 20 %><br>';
-            var line_number = '线路编号：<%=text_field :search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %><br>';
-            var pifa_name = '品牌编号：<%=text_field :search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>';
+            var line_name = '线路名称：<%=text_field :quick_search, :line_name, :id =>"lineName",:value => flash[:line_name], :size => 20 %><br>';
+            var line_number = '线路编号：<%=text_field :quick_search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %><br>';
+            var pifa_name = '品牌编号：<%=text_field :quick_search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>';
             var button='<button>确定</button>';
             var form_end = '<% end %>';
 
             var title="快速查询";
             var content_string = form_start + product + line_number + line_name + pifa_name +  button + form_end;
-            return $("#quickSearchjGrowlWindow").jGrowl(content_string,{ 
+            return $.jGrowl(content_string,{ 
                 sticky: true,
                 header: title,
+                position: "bottom-right",
                 close: function(){ 
                     jGrowl.open = false;
                 },
@@ -204,30 +205,54 @@
       <div class="column2">
       
       <h2>旅游发团搜索结果</h2>
-      <% if flash[:search_result] %>
+      <% if @results %>
       <ul>
-          <% flash[:search_result].each do |r| %>
+          <% @search_results.each do |r| %>
         <li>
           <div class="imgholder"><a href="#"><img src="/images/demo/794_s.jpg" alt="" /></a></div>
-          <b>线路名称 ：</b><strong><a href="#"><%=r["line_name"]%></a></strong><br>
-          <b>线路编号 ：</b><%=r["id"]%><br>
-          <b>出发地 ：</b><%=r["chufa_name"]%><br>
-          <b>品牌名称 ：</b><%=r["pifa_name"]%><br>
-          <b>天数 ：</b><%=r["days"]%><br>
-          <b>星级 ：</b><%=r["star"]%><br>
-          <b>有效期起 ：</b><%=r["daystart"]%><br>
-          <b>有效期止 ：</b><%=r["dayend"]%><br>
-          <b>总位 ：</b><%=r["total"]%>   <b>剩位 ：</b><font color="red"><%=r["left"]%></font><br>
-          <b>出发日期 ：</b><%=r["fatuanri"]%><br>
-          <b>同行价 ：</b><%=r["tonghang"]%><br>
-          <b>直客价 ：</b><%=r["zhike"]%><br>
-          <b>线路说明 ：</b><%=r["detail"]%><br>
+          <% unless r["visatype_name"]%>
+            <b>线路名称 ：</b><strong><a href="#"><%=r["line_name"]%></a></strong><br>
+            <b>线路编号 ：</b><%=r["id"]%><br>
+            <b>出发地 ：</b><%=r["chufa_name"]%><br>
+            <b>品牌名称 ：</b><%=r["pifa_name"]%><br>
+            <b>天数 ：</b><%=r["days"]%><br>
+            <b>星级 ：</b><%=r["star"]%><br>
+            <% if r["foods"] %>
+              <b>餐食 ：</b><%=r["foods"] %><br> 
+            <% end %>
+            <%if r["house_name"]  %>
+              <b>酒店类型 ：</b><%=r["house_name"] %><br> 
+            <% end %>
+            <b>有效期起 ：</b><%=r["daystart"]%><br>
+            <b>有效期止 ：</b><%=r["dayend"]%><br>
+            <b>总位 ：</b><%=r["total"]%>   <b>剩位 ：</b><font color="red"><%=r["left"]%></font><br>
+            <b>出发日期 ：</b><%=r["fatuanri"]%><br>
+            <b>同行价 ：</b><%=r["tonghang"]%><br>
+            <b>直客价 ：</b><%=r["zhike"]%><br>
+            <b>线路说明 ：</b><%=r["detail"]%><br>
+          <% else %>
+            <b>线路名称 ：</b><strong><a href="#"><%=r["line_name"]%></a></strong><br>
+            <b>线路编号 ：</b><%=r["id"]%><br>
+            <b>送签地 ：</b><%=r["songqiandi"]%><br>
+            <b>送签国 ：</b><%=r["songqianguo"]%><br>
+            <b>签证类型 ：</b><%=r["visatype_name"]%><br>
+            <b>所需资料 ：</b><%=r["document"]%><br>
+            <b>所需时间 ：</b><%=r["days"]%>个工作日<br>
+            <b>签证说明 ：</b><%=r["detail"]%><br>
+            <b>有效期起 ：</b><%=r["daystart"]%><br>
+            <b>有效期止 ：</b><%=r["dayend"]%><br>
+            <b>同行价 ：</b><%=r["tonghang"]%><br>
+            <b>直客价 ：</b><%=r["zhike"]%><br>
+          <% end %>
         </li>
         <% end %>
       </ul>
-      <% end %>
-
+      <div class="digg_pagination">
+        <%= will_paginate @results, :container => false, :param_name => "quick_search_page" %>
       </div>
+      <% end %>
+      </div>
+
     </div>
 
     <div class="fl_right">

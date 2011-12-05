@@ -5,6 +5,7 @@ class CreateQianzhengs < ActiveRecord::Migration
       t.string :songqiandi
       t.string :songqianguo
       t.references :visatype
+      t.references :linename
       t.text :document
       t.integer :days
       t.text :detail
@@ -16,5 +17,6 @@ class CreateQianzhengs < ActiveRecord::Migration
       t.timestamps
     end
     add_index :qianzhengs, :pifa_id
+    add_index :qianzhengs, :linename_id
   end
 end

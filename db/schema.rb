@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
   end
 
   create_table "chujingfatuans", :force => true do |t|
-    t.integer  "guonei_id"
+    t.integer  "chujing_id"
     t.string   "fatuanri"
     t.integer  "star_id"
     t.integer  "left"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
     t.datetime "updated_at"
   end
 
-  add_index "chujingfatuans", ["guonei_id"], :name => "index_chujingfatuans_on_guonei_id"
+  add_index "chujingfatuans", ["chujing_id"], :name => "index_chujingfatuans_on_chujing_id"
   add_index "chujingfatuans", ["star_id"], :name => "index_chujingfatuans_on_star_id"
 
   create_table "chujings", :force => true do |t|
@@ -131,13 +131,6 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
   add_index "guoneis", ["linename_id"], :name => "index_guoneis_on_linename_id"
   add_index "guoneis", ["pifa_id"], :name => "index_guoneis_on_pifa_id"
 
-  create_table "guoneis_dests", :force => true do |t|
-    t.integer  "guonei_id"
-    t.integer  "dest_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "guoneis_linetypes", :force => true do |t|
     t.integer  "guonei_id"
     t.integer  "linetype_id"
@@ -186,7 +179,8 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
     t.integer  "pifa_id"
     t.string   "songqiandi"
     t.string   "songqianguo"
-    t.string   "visatype"
+    t.integer  "visatype_id"
+    t.integer  "linename_id"
     t.text     "document"
     t.integer  "days"
     t.text     "detail"
@@ -198,14 +192,8 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
     t.datetime "updated_at"
   end
 
+  add_index "qianzhengs", ["linename_id"], :name => "index_qianzhengs_on_linename_id"
   add_index "qianzhengs", ["pifa_id"], :name => "index_qianzhengs_on_pifa_id"
-
-  create_table "qianzhengs_dests", :force => true do |t|
-    t.integer  "qianzheng_id"
-    t.integer  "dest_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
@@ -230,7 +218,7 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
   end
 
   create_table "zhiyoufatuans", :force => true do |t|
-    t.integer  "guonei_id"
+    t.integer  "zhiyou_id"
     t.string   "fatuanri"
     t.integer  "star_id"
     t.integer  "house_id"
@@ -245,9 +233,9 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
     t.datetime "updated_at"
   end
 
-  add_index "zhiyoufatuans", ["guonei_id"], :name => "index_zhiyoufatuans_on_guonei_id"
   add_index "zhiyoufatuans", ["house_id"], :name => "index_zhiyoufatuans_on_house_id"
   add_index "zhiyoufatuans", ["star_id"], :name => "index_zhiyoufatuans_on_star_id"
+  add_index "zhiyoufatuans", ["zhiyou_id"], :name => "index_zhiyoufatuans_on_zhiyou_id"
 
   create_table "zhiyous", :force => true do |t|
     t.integer  "pifa_id"
@@ -262,19 +250,5 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
   add_index "zhiyous", ["chufa_id"], :name => "index_zhiyous_on_chufa_id"
   add_index "zhiyous", ["linename_id"], :name => "index_zhiyous_on_linename_id"
   add_index "zhiyous", ["pifa_id"], :name => "index_zhiyous_on_pifa_id"
-
-  create_table "zhiyous_dests", :force => true do |t|
-    t.integer  "zhiyou_id"
-    t.integer  "dest_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "zhiyous_linetypes", :force => true do |t|
-    t.integer  "zhiyou_id"
-    t.integer  "linetype_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

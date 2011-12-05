@@ -1,7 +1,7 @@
 class CreateChujingfatuans < ActiveRecord::Migration
   def change
     create_table :chujingfatuans do |t|
-      t.references :guonei
+      t.references :chujing
       t.string :fatuanri
       t.references :star
       t.integer :left
@@ -13,7 +13,7 @@ class CreateChujingfatuans < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :chujingfatuans, :guonei_id
+    add_index :chujingfatuans, :chujing_id
     add_index :chujingfatuans, :star_id
   end
 end

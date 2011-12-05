@@ -28,8 +28,9 @@ group :production do
 end
 
 
+#两个必须要的gem
 gem "meta_search"
-
+gem "will_paginate"
 
 
 # To use ActiveModel has_secure_password
