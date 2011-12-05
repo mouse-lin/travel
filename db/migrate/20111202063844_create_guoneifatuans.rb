@@ -8,8 +8,8 @@ class CreateGuoneifatuans < ActiveRecord::Migration
       t.integer :total
       t.integer :tonghang
       t.integer :zhike
-      t.time :daystart
-      t.time :dayend
+      t.date :daystart
+      t.date :dayend
 
       t.timestamps
     end

@@ -108,8 +108,8 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
     t.integer  "total"
     t.integer  "tonghang"
     t.integer  "zhike"
-    t.time     "daystart"
-    t.time     "dayend"
+    t.date     "daystart"
+    t.date     "dayend"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
 
   create_table "linetypes_zhiyous", :force => true do |t|
     t.integer  "zhiyou_id"
-    t.integer  "lientype_id"
+    t.integer  "linetype_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -186,8 +186,8 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
     t.text     "detail"
     t.integer  "tonghang"
     t.integer  "zhike"
-    t.time     "daystart"
-    t.time     "dayend"
+    t.date     "daystart"
+    t.date     "dayend"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -227,8 +227,8 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
     t.integer  "total"
     t.integer  "tonghang"
     t.integer  "zhike"
-    t.time     "daystart"
-    t.time     "dayend"
+    t.date     "daystart"
+    t.date     "dayend"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

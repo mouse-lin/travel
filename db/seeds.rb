@@ -134,7 +134,7 @@ Visatype.create!([
 ])
 Guonei.create!([
   { :pifa_id => Pifa.last.id ,:chufa_id => Chufa.first.id, :linename_id => Linename.last.id  ,:days => 6 ,:detail => "A. 泡 亚洲罕见的天然山顶温泉 B. 玩 尽情玩转现实版的开心农场 C. 赏 国家级的龙门农民画博物馆 10:00 抵达景区参观国家级的龙门农民画博物馆，2010年，国家级农民画博物馆在惠州天然温泉度假村落成，龙门农民画，被誉为“岭南奇葩”，取材于古老的民间故事、传说和现实 生活，以其色彩明艳、图饱满、浓墨重彩、夸张变形的独特艺术风格，深刻反映出当地独特的文化和人民群众对生活的热爱。"   },
-  { :pifa_id => Pifa.first.id ,:chufa_id => Chufa.first.id, :linename_id => Linename.first.id  ,:days => 10 ,:detail => "A. 泡 亚洲罕见的天然山顶温泉 B. 玩 尽情玩转现实版的开心农场 C. 赏 国家级的龙门农民画博物馆 10:00 抵达景区参观国家级的龙门农民画博物馆，2010年，国家级农民画博物馆在惠州天然温泉度假村落成，龙门农民画，被誉为“岭南奇葩”，取材于古老的民间故事、传说和现实 生活，以其色彩明艳、图饱满、浓墨重彩、夸张变形的独特艺术风格，深刻反映出当地独特的文化和人民群众对生活的热爱。"   },
+  { :pifa_id => Pifa.first.id ,:chufa_id => Chufa.last.id, :linename_id => Linename.first.id  ,:days => 10 ,:detail => "A. 泡 亚洲罕见的天然山顶温泉 B. 玩 尽情玩转现实版的开心农场 C. 赏 国家级的龙门农民画博物馆 10:00 抵达景区参观国家级的龙门农民画博物馆，2010年，国家级农民画博物馆在惠州天然温泉度假村落成，龙门农民画，被誉为“岭南奇葩”，取材于古老的民间故事、传说和现实 生活，以其色彩明艳、图饱满、浓墨重彩、夸张变形的独特艺术风格，深刻反映出当地独特的文化和人民群众对生活的热爱。"   },
 ])
 Guoneifatuan.create!([
   { :guonei_id => Guonei.first.id, :star_id => Star.last.id, :fatuanri => "每周星期五", :daystart => "2011-12-11", "dayend" => "2011-12-20", :left => 8, :total => 50, :tonghang => 500, :zhike => 600 },
@@ -161,3 +161,15 @@ Qianzheng.create!([
   { :pifa_id => Pifa.first.id, :days => 5,:songqiandi => "北京", :songqianguo => "美国", :visatype_id => Visatype.first.id, :document => "个人资料表", :detail => "个人资料表", :linename_id => Linename.first.id, :tonghang => 2680, :zhike => 600,:daystart => "2011-11-01", "dayend" => "2011-11-30"},
   { :pifa_id => Pifa.first.id, :songqiandi => "上海",:days => 10, :songqianguo => "英国", :visatype_id => Visatype.first.id, :document => "个人资料表", :detail => "个人资料表", :linename_id => Linename.first.id, :tonghang => 2680, :zhike => 600,:daystart => "2011-11-01", "dayend" => "2011-11-30"}
 ])
+
+Linetype.first.guoneis << Guonei.where(:id => [1,2])
+Linetype.last.chujings << Chujing.where(:id => [1,2])
+Linetype.first.zhiyous << Zhiyou.where(:id => [1,2])
+
+Guonei.first.dests << Dest.last
+Guonei.last.dests << Dest.where(:id => [1,2,3])
+Chujing.first.dests << Dest.where(:id => [1,2,3,4,5])
+Zhiyou.first.dests << Dest.where(:id => [10,11,12,14])
+Qianzheng.first.dests << Dest.where(:id => [10,11,12,14])
+Qianzheng.last.dests << Dest.where(:id => [10,11,12,14])
+Zhiyou.last.dests << Dest.where(:id => [10,11,12,14])
