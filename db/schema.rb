@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(:version => 20111204172115) do
     t.integer  "total"
     t.integer  "tonghang"
     t.integer  "zhike"
-    t.time     "daystart"
-    t.time     "dayend"
+    t.date     "daystart"
+    t.date     "dayend"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

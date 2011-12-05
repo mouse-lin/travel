@@ -197,27 +197,26 @@
       <div class="column2">
         <ul>
           <li>
-            <form id="formID" class="formular" action="">
+            <form id="formID" class="formular" action="/homes">
             <b>详细搜索栏</b><br>
                 <table>
                     <tbody>
                         <tr>
                             <td>
-                    
-                                产品分类<font  color="red">*</font>：<input readonly value=<%= @product_type %> class="validate[required] search-product"  name="product" id="product"></input>
-                                出发地 ：<input class='search-chufa' type="text" readonly></input>
-                                目的地：<input class='search-descat' type="text" readonly></input>
-                                线路类型：<input class='search-linetype' type="text" readonly></input>
-                            </td>
-                            <td>
-                                出团时间起：<input  readonly name="dateStart" id="dateStart"></input>
-                                出团时间止：<input  readonly name="dateEnd" id="dateEnd"></input>
-                                天数：<input class='search-days' type="text" readonly></input>
-                                价格：<input class='search-price' type="text" readonly></input>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                产品分类<font  color="red">*</font>：<input readonly  class="validate[required] search-product"  name="type[product]" id="product" value=<%=flash[:product_type]%> ></input>
+                出发地 ：<input class='search-chufa' type="text" name="search[chufa_name]" readonly value=<%= flash[:chufa_name]%> ></input>
+                目的地：<input class='search-descat' type="text" readonly name="search[dest_name]" value=<%= flash[:dest_name]%>></input>
+                线路类型：<input class='search-linetype' type="text" readonly  name="search[line_name]" value=<%= flash[:line_name]%>></input>
+              </td>
+              <td>
+                出团时间起：<input  readonly name="dateStart" id="dateStart" name="search[daystart]" value=<%= flash[:daystart]%>></input>
+                出团时间止：<input  readonly name="dateEnd" id="dateEnd"  name="search[dayend]" value=<%= flash[:dayend]%>></input>
+                天数：<input type="text" readonly  name="search[days]" value=<%= flash[:days]%>></input>
+                价格：<input type="text" readonly  name="search[price]" value=<%= flash[:price]%>></input>
+               </td>
+              </tr>
+            </tbody>
+           </table>
                 <button>高级搜索</button>
             </form>
 

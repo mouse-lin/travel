@@ -19,20 +19,41 @@ class HomesController < ApplicationController
 private
   #快速查找
   def quick_search
-    if params[:quick_search] || params[:quick_search_page]
-      product_type = params[:type]["product"]
-      pifa_name = params[:quick_search][:pifa_name] 
-      line_number = params[:quick_search][:line_number] 
-      line_name = params[:quick_search][:line_name] 
-      @search_results = []
+    #一开是就赋值给product
+    flash[:product_type] = Product.first.name  
 
-      #保存form请求前台搜索数据,前台也可以直接使用params来赋值，这里使用了flash cookide保存方式
-      @product_type = flash[:product_type] = product_type
-      flash[:line_number] = line_number
-      flash[:line_name] = line_name
-      flash[:pifa_name] = pifa_name
+    if params[:quick_search] || params[:quick_search_page] || params[:search]
       #分页
       page = 10
+      product_type = params[:type][:product]
+      if params[:search]
+        #详细搜索
+        chufa_name = params[:search][:chufa_name]
+        dest_name = params[:search][:dest]
+        linetype_name = params[:search][:line_typename]
+        days = params[:search][:days]
+        price = params[:search][:price]
+        daystart = params[:search][:daystart]
+        dayend = params[:search][:dayend]
+        flash[:chufa_name] = chufa_name
+        flash[:dest_name] = dest_name
+        flash[:linetype_name] = linetype_name
+        flash[:days] = days
+        flash[:price] = price
+        flash[:daystart] = daystart
+        flash[:dayend] = dayend
+      else
+        #快速搜索
+        pifa_name = params[:quick_search][:pifa_name] 
+        line_number = params[:quick_search][:line_number] 
+        line_name = params[:quick_search][:line_name] 
+        #保存form请求前台搜索数据,前台也可以直接使用params来赋值，这里使用了flash cookide保存方式
+        flash[:line_number] = line_number
+        flash[:line_name] = line_name
+        flash[:pifa_name] = pifa_name
+      end
+      flash[:product_type] = product_type
+      @search_results = []
 
       #执行跨表搜索
       if product_type == "国内跟团游"
@@ -88,9 +109,6 @@ private
           @search_results << r
         end
       end
-    else
-      #一开是就赋值给product
-      @product_type = flash[:product_type] = Product.first.name  
     end
   end
 
