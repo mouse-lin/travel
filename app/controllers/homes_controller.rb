@@ -15,6 +15,8 @@ class HomesController < ApplicationController
 private
   #快速查找
   def quick_search
+    @product_name = Product.first.name  
+
     if params[:quick_search] || params[:quick_search_page]
       product_type = params[:type]["product"]
       pifa_name = params[:quick_search][:pifa_name] 
