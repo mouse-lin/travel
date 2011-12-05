@@ -84,7 +84,7 @@
 
         //日期选择定义
         $("#dateEnd").glDatePicker({
-            cssName: "android",
+            //cssName: "android",
             onChange: function(target, newDate){
                  target.val
                  (
@@ -96,7 +96,7 @@
         });
 
         $("#dateStart").glDatePicker({
-            cssName: "android",
+            //cssName: "android",
             onChange: function(target, newDate){
                  target.val
                  (
@@ -205,14 +205,14 @@
                             <td>
                 产品分类<font  color="red">*</font>：<input readonly  class="validate[required] search-product"  name="type[product]" id="product" value=<%=flash[:product_type]%> ></input>
                 出发地 ：<input class='search-chufa' type="text" name="search[chufa_name]" readonly value=<%= flash[:chufa_name]%> ></input>
-                目的地：<input class='search-descat' type="text" readonly name="search[dest_name]" value=<%= flash[:dest_name]%>></input>
+                目的地：<input class='search-destcat' type="text" readonly name="search[dest_name]" value=<%= flash[:dest_name]%>></input>
                 线路类型：<input class='search-linetype' type="text" readonly  name="search[line_name]" value=<%= flash[:line_name]%>></input>
               </td>
               <td>
                 出团时间起：<input  readonly name="dateStart" id="dateStart" name="search[daystart]" value=<%= flash[:daystart]%>></input>
                 出团时间止：<input  readonly name="dateEnd" id="dateEnd"  name="search[dayend]" value=<%= flash[:dayend]%>></input>
-                天数：<input type="text" readonly  name="search[days]" value=<%= flash[:days]%>></input>
-                价格：<input type="text" readonly  name="search[price]" value=<%= flash[:price]%>></input>
+                天数：<input class="search-days" type="text" readonly  name="search[days]" value=<%= flash[:days]%>></input>
+                价格：<input class="search-price" type="text" readonly  name="search[price]" value=<%= flash[:price]%>></input>
                </td>
               </tr>
             </tbody>
