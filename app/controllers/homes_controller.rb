@@ -15,9 +15,6 @@ class HomesController < ApplicationController
 private
   #快速查找
   def quick_search
-    #一开是就赋值给product
-    @product_name = flash[:product_type] = Product.first.name  
-
     if params[:quick_search] || params[:quick_search_page]
       product_type = params[:type]["product"]
       pifa_name = params[:quick_search][:pifa_name] 
@@ -26,7 +23,7 @@ private
       @search_results = []
 
       #保存form请求前台搜索数据,前台也可以直接使用params来赋值，这里使用了flash cookide保存方式
-      flash[:product_type] = product_type
+      @product_type = flash[:product_type] = product_type
       flash[:line_number] = line_number
       flash[:line_name] = line_name
       flash[:pifa_name] = pifa_name
@@ -87,6 +84,9 @@ private
           @search_results << r
         end
       end
+    else
+      #一开是就赋值给product
+      @product_type = flash[:product_type] = Product.first.name  
     end
   end
 
