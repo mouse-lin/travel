@@ -15,7 +15,8 @@ class HomesController < ApplicationController
 private
   #快速查找
   def quick_search
-    @product_name = Product.first.name  
+    #一开是就赋值给product
+    @product_name = flash[:product_type] = Product.first.name  
 
     if params[:quick_search] || params[:quick_search_page]
       product_type = params[:type]["product"]
