@@ -5,11 +5,11 @@
             ops = $.extend({}, sm.defaults, ops),
             container = $("<div class='search-contain'><div class='single-title'>" + ops.title + "</div><div class='single-value'></div><a class='single-number-value'></a><a class='single-cancel'>取消</a><a class='single-save'>保存</a></div>").appendTo("body"),
             genItemsStr = function (items) { 
-                var str = "<table>", tmp = 5;
-                for(var i = 0; i < items.length / tmp | 0; i ++) { 
+                var str = "<table>";
+                for(var i = 0; i < items.length / ops.counts | 0; i ++) { 
                     str += "<tr>";
-                    for(var j = 0; j < tmp && i*tmp + j < items.length; j ++) { 
-                        str += "<td class='item'><a class='index'>" + (i * tmp + j) + "</a>" + items[i*tmp + j] + "</td>";
+                    for(var j = 0; j < ops.counts && i*ops.counts + j < items.length; j ++) { 
+                        str += "<td class='item'><a class='index'>" + (i * ops.counts + j) + "</a>" + items[i*ops.counts + j] + "</td>";
                     }
                     str += "</tr>";
                 }
@@ -79,7 +79,11 @@
                     }
                 });
 
-                $("body").click(function (e) { 
+                container.click(function (e) { 
+                    e.stopPropagation();
+                });
+
+                $("body").click(function (e) {
                     if(!$(e.target).is(operateEl)) { 
                         container.hide();
                     }
@@ -109,6 +113,14 @@
             }
             $(this).focus(function (e) { 
                 container.css("left", parseInt($(e.target).offset().left) + 50).css("top", parseInt($(e.target).offset().top) + 20).show();
+                if(ops.sameWidth) {
+                    var items = container.find(".item"), maxWidth = 0;
+                    for(var i = 0; i < items.length; i ++) { 
+                        if(maxWidth < parseInt($(items[i]).css("width")))maxWidth = parseInt($(items[i]).css("width"));
+                    }
+
+                    items.css("width", maxWidth + "px");
+                }
             });
         })
 
@@ -119,6 +131,8 @@
     sm.defaults = { 
         children : [],
         select : 'single',
+        counts : 5,
+        sameWidth : false,
         callback : {}
     };
 })(jQuery)

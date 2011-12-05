@@ -3,6 +3,10 @@ class HomesController < ApplicationController
   def index
     #调用快速查找方式，@results 与 @search_results 为分别数据,提供@results作为外部数据接口
     quick_search
+    @products = (Product.all.collect &:name).to_json.html_safe
+    @chufas = (Chufa.all.collect &:name).to_json.html_safe
+    @destcats = (Destcat.all.collect { |destcat| { "value" => destcat.name, "children" => destcat.dests.collect(&:name) } }).to_json.html_safe
+    @linetypes = (Linetype.all.collect &:name).to_json.html_safe
   end
 
   #即时搜索方法

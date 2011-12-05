@@ -2,7 +2,7 @@
     display : none;
     position : absolute;
     background-color : white;
-    border : solid 1px #b9b9b9;
+    border : solid 2px #F9CB86;
 }
 
 .multi-contain td { 
@@ -16,15 +16,16 @@
 }
 
 .multi-value { 
-    border-bottom : solid 1px #b9b9b9;
+    border-bottom : solid 1px #F9CB86;
     padding : 8px;
     margin : 3px;
 }
 
 .multi-title { 
+    color : #f73;
     padding : 4px;
     margin : 4px;
-    border-bottom : 1px solid #b9b9b9;
+    border-bottom : 1px solid #F9CB86;
 }
 
 .multi-contain table { 
@@ -43,7 +44,7 @@
 
 #multi-td1 { 
     border : none;
-    border-right : 1px solid #b9b9b9;
+    border-right : 1px solid #F9CB86;
 }
 
 #multi-td2 { 
@@ -63,6 +64,7 @@
     display : none;
 }
 .multi-save { 
+    color : #f73;
     cursor : pointer;
     float : right;
     margin-top : 4px;
@@ -74,6 +76,7 @@
     padding : 2px 6px 6px 2px;
 }
 .multi-cancel { 
+    color : #f73;
     cursor : pointer;
     float : right;
     margin-top : 4px;
