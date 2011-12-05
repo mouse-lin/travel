@@ -14,11 +14,11 @@
                 </div>"
             ).appendTo("body"),
             genFirstItems = function (items) { 
-                var str = ""
-                for(var i = 0; i < items.length / 4 | 0; i ++) { 
+                var str = "", tmp = 5;
+                for(var i = 0; i < items.length / tmp | 0; i ++) { 
                     str += "<tr>";
-                    for(var j = 0; j < 4 && i*4 + j < items.length; j ++) { 
-                        str += "<td class='first-item'><a class='multi-index'>" + (i * 4 + j) + "</a>" + items[i*4 + j].value + "</td>";
+                    for(var j = 0; j < tmp && i*tmp + j < items.length; j ++) { 
+                        str += "<td class='first-item'><a class='multi-index'>" + (i * tmp + j) + "</a>" + items[i*tmp + j].value + "</td>";
                     }
                     str += "</tr>";
                 }
@@ -81,10 +81,11 @@
                     second = $(el).parents(".multi-contain").find('.multi-second');
                 if(typeof tmp.children !== "undefined") {
                     second.empty();
-                    for(var i = 0; i < tmp.children.length / 4 | 0; i ++) { 
+                    var n = 5;
+                    for(var i = 0; i < tmp.children.length / n | 0; i ++) { 
                         var str = "<tr>";
-                        for(var j = 0; j < 4 && i*4 + j < tmp.children.length; j ++) { 
-                            str += "<td class='second-item'><a class='multi-index'>" + (i*4 + j) + "</a>" + tmp.children[i*4 + j] + "</td>"
+                        for(var j = 0; j < n && i*n + j < tmp.children.length; j ++) { 
+                            str += "<td class='second-item'><a class='multi-index'>" + (i*n + j) + "</a>" + tmp.children[i*n + j] + "</td>"
                         }
                         second.append(str + "</tr>");
                     }

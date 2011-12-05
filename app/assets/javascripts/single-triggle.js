@@ -5,11 +5,11 @@
             ops = $.extend({}, sm.defaults, ops),
             container = $("<div class='search-contain'><div class='single-title'>" + ops.title + "</div><div class='single-value'></div><a class='single-number-value'></a><a class='single-cancel'>取消</a><a class='single-save'>保存</a></div>").appendTo("body"),
             genItemsStr = function (items) { 
-                var str = "<table>"
-                for(var i = 0; i < items.length / 4 | 0; i ++) { 
+                var str = "<table>", tmp = 5;
+                for(var i = 0; i < items.length / tmp | 0; i ++) { 
                     str += "<tr>";
-                    for(var j = 0; j < 4 && i*4 + j < items.length; j ++) { 
-                        str += "<td class='item'><a class='index'>" + (i * 4 + j) + "</a>" + items[i*4 + j] + "</td>";
+                    for(var j = 0; j < tmp && i*tmp + j < items.length; j ++) { 
+                        str += "<td class='item'><a class='index'>" + (i * tmp + j) + "</a>" + items[i*tmp + j] + "</td>";
                     }
                     str += "</tr>";
                 }
