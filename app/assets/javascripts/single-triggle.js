@@ -19,7 +19,7 @@
                 var numberEl = $(container).find(".single-number-value"),
                     number = numberEl.text().split("-");
                 for(var i = 0; i < number.length; i ++) { 
-                    if(number[i] == index) return;
+                    if(number[i] === index) return;
                 }
                 
                 var el = $("<a class='single-multi-value'>" + ops.children[index] + "</a><a class='single-remove'>×</a>").appendTo(".single-value");

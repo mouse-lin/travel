@@ -107,11 +107,15 @@
            }
         });
 
+        //清空
+        $(".initial u").click(function (){ 
+            $(this).prev().val("");
+        });
+
+
         quickSearchjGrowl(); 
         //$.Move("quickSearchjGrowlWindow");
     });
-
-
 
     //autocomplete扩展方法
     function autocompleteSearch(dom,url,itemString){
@@ -203,16 +207,16 @@
                     <tbody>
                         <tr>
                             <td>
-                产品分类<font  color="red">*</font>：<input readonly  class="search-product"  name="type[product]" id="product" value=<%=flash[:product_type]%> ></input>
-                出发地 ：<input class='search-chufa' type="text" name="search[chufa_name]" readonly value=<%= flash[:chufa_name]%> ></input>
-                目的地：<input class='search-destcat' type="text" readonly name="search[dest_name]" value=<%= flash[:dest_name]%>></input>
-                线路类型：<input class='search-linetype' type="text" readonly  name="search[linetype_name]" value=<%= flash[:linetype_name]%>></input>
+                产品分类<font  color="red">*</font>：<input readonly class="search-product"  name="type[product]" id="product" value=<%=flash[:product_type]%> ></input>
+                出发地 ：<div class='initial'><input style='display:initial;' class='search-chufa' type="text" name="search[chufa_name]" readonly value=<%= flash[:chufa_name]%> ></input><u>清除</u></div>
+                目的地：<div class='initial'><input style='display:initial;' class='search-destcat' type="text" readonly name="search[dest_name]" value=<%= flash[:dest_name]%>></input><u>清除</u></div>
+                线路类型：<div class='initial'><input style='display:initial;' class='search-linetype' type="text" readonly  name="search[linetype_name]" value=<%= flash[:linetype_name]%>></input><u>清除</u></div>
               </td>
               <td>
                 出团时间起：<input   class="validate[custom[date]]"  id="dateStart" name="search[daystart]" value=<%= flash[:daystart]%>></input>
                 出团时间止：<input  class="validate[custom[date]]"  id="dateEnd"  name="search[dayend]" value=<%= flash[:dayend]%>></input>
-                天数：<input class="search-days" type="text" readonly  name="search[days]" value=<%= flash[:days]%>></input>
-                价格：<input class="search-price" type="text" readonly  name="search[price]" value=<%= flash[:price]%>></input>
+                天数：<div class='initial'><input style='display:initial;' class="search-days" type="text" readonly  name="search[days]" value=<%= flash[:days]%>></input><u>清除</u></div>
+                价格：<div class='initial'><input style='display:initial;' class="search-price" type="text" readonly  name="search[price]" value=<%= flash[:price]%>></input><u>清除</u></div>
                </td>
               </tr>
             </tbody>
