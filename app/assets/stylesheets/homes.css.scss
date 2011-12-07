@@ -3,6 +3,9 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .tilesearch-parent { clear : both; }
 .tilesearch-parent strong { display : block; float : left; clear : both; width : 70px; padding : 10px;}
+.tilesearch-time span { font-weight : bold; padding-right : 33px; }
+.tilesearch-time #tilesearch-end { padding-left : 33px; }
+.tilesearch-time { padding : 10px; }
 #quickSearch-table { border : none; }
 #quickSearch-table tr { border : none; }
 #quickSearch-table td:first-child { width : 70px; }

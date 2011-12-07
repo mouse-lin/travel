@@ -34,10 +34,13 @@
             $(".tilesearch-price").find(".tilesearch-result-item").each (function () { 
                 result.search.price.push($(this).text());
             })
+            result.search.daystart.push($("#dateStart").val());
+            result.search.dayend.push($("#dateEnd").val());
 
             window.location.href = "homes?" + $.param(result);
         }
         
+        /*
         callback = { 
             firstclick : function (result) { 
                 search();
@@ -56,7 +59,6 @@
             }
         }
         //*/
-        /*
         callback = {  };
         //*/
 
@@ -123,37 +125,6 @@
         //表格校验开始
         jGrowl = { open: false };
         jQuery("#formID").validationEngine();
-
-        //日期选择定义
-        $("#dateEnd").glDatePicker({
-            //cssName: "android",
-            onChange: function(target, newDate){
-                 target.val
-                 (
-                     newDate.getFullYear() + "-" +
-                     (newDate.getMonth() + 1) + "-" +
-                     newDate.getDate()
-                 );
-           }
-        });
-
-        $("#dateStart").glDatePicker({
-            //cssName: "android",
-            onChange: function(target, newDate){
-                 target.val
-                 (
-                     newDate.getFullYear() + "-" +
-                     (newDate.getMonth() + 1) + "-" +
-                     newDate.getDate()
-                 );
-           }
-        });
-
-        //清空
-        $(".initial u").click(function (){ 
-            $(this).prev().val("");
-        });
-
 
         //quickSearchjGrowl(); 
         //$.Move("quickSearchjGrowlWindow");
@@ -233,6 +204,35 @@
         }
     }
 
+    jQuery(document).ready(function () { 
+        //日期选择定义
+        $("#dateEnd").glDatePicker({
+            //cssName: "android",
+            onChange: function(target, newDate){
+                 target.val
+                 (
+                     newDate.getFullYear() + "-" +
+                     (newDate.getMonth() + 1) + "-" +
+                     newDate.getDate()
+                 );
+                 search();
+           }
+        });
+
+        $("#dateStart").glDatePicker({
+            //cssName: "android",
+            onChange: function(target, newDate){
+                target.val
+                (
+                    newDate.getFullYear() + "-" +
+                    (newDate.getMonth() + 1) + "-" +
+                    newDate.getDate()
+                );
+                $("#dateEnd")[0].focus();
+           }
+        });
+    })
+
 </script>
 
       <div id="quickSearchjGrowlWindow"></div>
@@ -248,7 +248,10 @@
                       <ul class='tilesearch-parent tilesearch-product'>  <strong >产品类型:</strong></ul>
                       <ul class='tilesearch-parent tilesearch-destcat'>  <strong >目的地:</strong></ul>
                       <ul class='tilesearch-parent tilesearch-linetype'> <strong >线路类型:</strong></ul>
-                      <ul class='tilesearch-parent tilesearch-time'>     <strong >出团时间:</strong></ul>
+                      <div class='tilesearch-parent tilesearch-time'>     
+                          <div style='display:inline;'><span>出团时间起:</span><input readonly id='dateStart' value = <%= flash[:daystart] %>/></div>
+                          <div style='display:inline;'><span id='tilesearch-end'>出团时间止:</span><input readonly id='dateEnd' value = <%= flash[:dayend] %>/></div>
+                      </div>
                       <ul class='tilesearch-parent tilesearch-day'>      <strong >天数:</strong></ul>
                       <ul class='tilesearch-parent tilesearch-price'>    <strong >价格:</strong></ul>
                       </td>
@@ -308,8 +311,8 @@
                 线路类型：<div class='initial'><input style='display:initial;' class='search-linetype' type="text" readonly  name="search[linetype_name]" value=<%= flash[:linetype_name]%>></input><u>清除</u></div>
               </td>
               <td>
-                出团时间起：<input   class="validate[custom[date]]"  id="dateStart" name="search[daystart]" value=<%= flash[:daystart]%>></input>
-                出团时间止：<input  class="validate[custom[date]]"  id="dateEnd"  name="search[dayend]" value=<%= flash[:dayend]%>></input>
+                出团时间起：<input  class="validate[custom[date]]"  id="dateStart" name="search[daystart]" value=<%= flash[:daystart]%>></input>
+                出团时间止：<input  class="validate[custom[date]]"  id="dateEnd"   name="search[dayend]"   value=<%= flash[:dayend]%>></input>
                 天数：<div class='initial'><input style='display:initial;' class="search-days" type="text" readonly  name="search[days]" value=<%= flash[:days]%>></input><u>清除</u></div>
                 价格：<div class='initial'><input style='display:initial;' class="search-price" type="text" readonly  name="search[price]" value=<%= flash[:price]%>></input><u>清除</u></div>
                </td>

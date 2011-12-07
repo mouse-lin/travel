@@ -13,10 +13,12 @@
     list-style : none;
     margin : 3px; 
     padding : 3px 5px;
+    cursor : pointer;
 }
 .tilesearch-result-save {  }
 .tilesearch-result-clear {  }
 .tilesearch-result-remove { padding : 3px 9px 3px 6px; }
+.tilesearch-result-remove:hover { padding : 0px 12px 6px 3px; cursor : pointer }
 .tilesearch-result-item {  }
 .tilesearch-second-item { 
     display : block; 
@@ -24,6 +26,7 @@
     list-style : none;
     padding : 5px;
     margin : 5px;
+    cursor : pointer;
 }
 .tilesearch-result-first-index { display : none; }
 .tilesearch-result-save { display : none; }

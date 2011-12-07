@@ -110,7 +110,7 @@
                         var el = putResult(ops.origin[i]);
                         for(var j = 0; j < firsts.length; j ++) { 
                             if(ops.origin[i] == $(firsts[j]).text()){ 
-                                $(firsts[j]).css("border-color", "#02ACEE").css('border-style', "solid").css("border-width", "1px");
+                                $(firsts[j]).css("color", "#02ACEE");
                             }
                         }
                     }
@@ -165,6 +165,8 @@
             } else if (ops.select === 3) {
                 container.find(".tilesearch-result").empty();
                 putSaveAndClear();
+                $(this).parent().find(".tilesearch-first-item").css("color", "inherit")
+                $(this).css("color", "#02ACEE");
                 $("<a class='tilesearch-result-item tilesearch-result-first-index'>" + $(this).text() + "</a>").prependTo(container.find(".tilesearch-result"));
                 putSecondSearch(this);
             }
