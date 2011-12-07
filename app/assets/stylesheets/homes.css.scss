@@ -1,5 +1,9 @@
 // Place all the styles related to the homes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
-.initial u { padding : 1px; padding-left : 8px; cursor : pointer;}
+.tilesearch-parent { clear : both; }
+.tilesearch-parent strong { display : block; float : left; clear : both; width : 70px; padding : 10px;}
+#quickSearch-table { border : none; }
+#quickSearch-table tr { border : none; }
+#quickSearch-table td:first-child { width : 70px; }
+#quickSearch-table td { border : none; }

@@ -5,78 +5,120 @@
         destcats : <%= @destcats %>,
         linetypes : <%= @linetypes %>
     }
+    originValue = { 
+        product : <%= flash["product"].to_json.html_safe %> || triggle.products[0]
+    }
     jQuery(document).ready(function(){
         //其他选择 -- 彬
-        $(".search-product").singleTriggle({ 
-            children : triggle.products,
-            title : '请选择产品类型',
-            callback : {
-                click : function (el, value, event) { 
-                    $(".search-product").val(value);
-                    $("#productS").val(value);
-                }
-            }
-        })
+        search = function () { 
+            var result = { 
+                type : { product : [] }, 
+                search : { chufa_name : [], dest_name : [], linetype_name : [], daystart : [], dayend : [], days : [], price : [] } 
+            };
 
-        $(".search-chufa").singleTriggle({ 
+            $(".tilesearch-chufa").find(".tilesearch-result-item").each (function () { 
+                result.search.chufa_name.push($(this).text());
+            })
+            $(".tilesearch-product").find(".tilesearch-result-item").each (function () { 
+                result.type.product.push($(this).text());
+            })
+            $(".tilesearch-destcat").find(".tilesearch-result-item").each (function () { 
+                result.search.dest_name.push($(this).text());
+            })
+            $(".tilesearch-linetype").find(".tilesearch-result-item").each (function () { 
+                result.search.linetype_name.push($(this).text());
+            })
+            $(".tilesearch-day").find(".tilesearch-result-item").each (function () { 
+                result.search.days.push($(this).text());
+            })
+            $(".tilesearch-price").find(".tilesearch-result-item").each (function () { 
+                result.search.price.push($(this).text());
+            })
+
+            window.location.href = "homes?" + $.param(result);
+        }
+        
+        callback = { 
+            firstclick : function (result) { 
+                search();
+            },
+            secondclick : function (result) { 
+                search();
+            },
+            clear : function () { 
+                search();
+            },
+            remove : function(result, tilesearch) { 
+                search();
+            },
+            save : function (result) {
+                search();
+            }
+        }
+        //*/
+        /*
+        callback = {  };
+        //*/
+
+        $(".tilesearch-chufa").tilesearch ({ 
             children : triggle.chufas,
-            title : '请选择出发地',
-            callback : { 
-                click : function (el, value, event) { 
-                    $(".search-chufa").val(value);
-                }
-            }
+            origin : <%= flash["chufa_name"].to_json.html_safe %> || [triggle.chufas[0]],
+            select : 1,
+            result : function (f_value) { 
+                return f_value;
+            },
+            callback : callback
         });
-
-        $(".search-destcat").multiTriggle ({ 
-            children : triggle.destcats,
-            title : '请选择目的地',
-            firstCounts : 5,
-            secondCounts : 5,
-            callback : {
-                save : function (value, event) { 
-                    $(".search-destcat").val(value);
-                }
-            }
+        $(".tilesearch-product").tilesearch ({ 
+            children : triggle.products,
+            select : 1,
+            origin : <%= flash["product"].to_json.html_safe %> || [triggle.products[0]],
+            result : function (f_value) {
+                return f_value;
+            },
+            callback : callback
         });
-
-        $(".search-linetype").singleTriggle ({ 
+        $(".tilesearch-linetype").tilesearch ({ 
             children : triggle.linetypes,
-            select : 'multi',
-            title : '请选择路线类型',
-            callback : { 
-                save : function (value, event) { 
-                    $(".search-linetype").val(value);
-                }
-            }
+            select : 2,
+            origin : <%= flash["linetype_name"].to_json.html_safe %> || [],
+            result : function (f_value) { 
+                return f_value;
+            },
+            callback : callback
         });
-
-        $(".search-days").singleTriggle ({ 
-            children : [
-                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "15天以上"
-            ],
-            title : '请选择天数',
-            counts : 16,
-            callback : { 
-                click : function (el, value, event) { 
-                    $(".search-days").val(value);
-                }
-            }
-        });        
-
-        $(".search-price").singleTriggle ({ 
+        $(".tilesearch-price").tilesearch ({ 
             children : [
                 "500以内", "500-1000", "1000-2000", "2000-4000", "4000-10000", "10000以上"
             ],
-            title : '请选择价钱',
-            counts : 6,
-            callback : { 
-                click : function (el, value, event) { 
-                    $(".search-price").val(value);
-                }
-            }
-        });        
-
+            select : 2,
+            origin : <%= flash["price"].to_json.html_safe %> || [],
+            result : function (f_value) { 
+                return f_value;
+            },
+            callback : callback
+        });
+        $(".tilesearch-day").tilesearch ({ 
+            children : [
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "15天以上"
+            ],
+            select : 2,
+            origin : <%= flash["day"].to_json.html_safe %> || [],
+            result : function (f_value) { 
+                return f_value;
+            },
+            callback : callback
+        });
+        $(".tilesearch-destcat").tilesearch ({ 
+            children : triggle.destcats,
+            select : 3,
+            result : function (value) { 
+                return value;
+            },
+            origin : <%= flash["dest_name"].to_json.html_safe %> || [],
+            callback : callback
+        });
+        var class2 = [ ".tilesearch-product", ".tilesearch-time", ]
         
         //表格校验开始
         jGrowl = { open: false };
@@ -113,7 +155,7 @@
         });
 
 
-        quickSearchjGrowl(); 
+        //quickSearchjGrowl(); 
         //$.Move("quickSearchjGrowlWindow");
     });
 
@@ -197,6 +239,59 @@
 
 <div class="wrapper col3">
   <div id="homecontent">
+      <table>
+          <tr>
+              <td>
+                  <table style='margin:0px;'>
+                      <td>
+                      <ul class='tilesearch-parent tilesearch-chufa'>    <strong >出发地:</strong></ul>
+                      <ul class='tilesearch-parent tilesearch-product'>  <strong >产品类型:</strong></ul>
+                      <ul class='tilesearch-parent tilesearch-destcat'>  <strong >目的地:</strong></ul>
+                      <ul class='tilesearch-parent tilesearch-linetype'> <strong >线路类型:</strong></ul>
+                      <ul class='tilesearch-parent tilesearch-time'>     <strong >出团时间:</strong></ul>
+                      <ul class='tilesearch-parent tilesearch-day'>      <strong >天数:</strong></ul>
+                      <ul class='tilesearch-parent tilesearch-price'>    <strong >价格:</strong></ul>
+                      </td>
+                  </table>
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  <div style='clear:both;'>
+                      <form action="/homes" class='quickSearch' id="quickSearch" method='get' style='width:initial;border-color:#ccc;'>
+                          <table id='quickSearch-table'>
+                              <tr>
+                                  <td>
+                                      <label style='width:90px;' >产品分类<a style='color:red;'>*</a>：</label>
+                                  </td>
+                                  <td>
+                                      <input class='validate[required]' id='products' name='type[product]' value= <%= flash[:product_type] %>></input>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <label style='width:90px;' >线路编号：</label>
+                                  </td>
+                                  <td>
+                                      <input class='validate[required]' id='products' name='type[line_number]' value= <%= flash[:line_number] %>></input>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <label style='width:90px;' >品牌编号：</label>
+                                  </td>
+                                  <td>
+                                      <input class='validate[required]' id='products' name='type[pifa_name]' value= <%= flash[:pifa_name] %>></input>
+                                  </td>
+                              </tr>
+                          </table>
+                          <button>确定</button>
+                      </form>
+                  </div>
+              </td>
+          </tr>
+      </table>
+        <!--
     <div class="fl_left">
       <div class="column2">
         <ul>
@@ -229,9 +324,10 @@
         <br class="clear" />
       </div>
 
+        -->
 
 
-      <div class="column2">
+      <div class="column2" style='clear:both;'>
       
       <h2>旅游发团搜索结果</h2>
       <% if @results %>

@@ -1,0 +1,484 @@
+<script type="text/javascript" charset="utf-8">
+    (function ($) { 
+        $.fn.tilesearch = function (ops){ 
+            var ts = $.fn.tilesearch,
+                ops = $.extend({  }, ts.defaults, ops),
+                container = $("<div><div class='tilesearch-second' style='clear:both;display:none;'></div><div class='tilesearch-result' style='clear:both;'></div></div>").appendTo(this),
+                genFirstSearch = function () { 
+                    var str = "<ul class='tilesearch-first'>";
+                    if(ops.select === 1 || ops.select === 2) { 
+                        for(var i = 0; i < ops.children.length; i ++) { 
+                            str += "<li class='tilesearch-first-item' style='display:block;float:left;list-style:none;padding:10px;'><a style='display:none;' class='tilesearch-first-index'>" + i + "</a>" + ops.children[i] + "</li>";
+                        }
+                    } else if (ops.select === 3) { 
+                        for(var i = 0; i < ops.children.length; i ++) { 
+                            str += "<li class='tilesearch-first-item' style='display:block;float:left;list-style:none;padding:10px;'><a style='display:none;' class='tilesearch-first-index'>" + i + "</a>" + ops.children[i].value + "</li>";
+                        }
+                    }
+                    return str + "</ul>";
+                },
+                putSaveAndClear = function () { 
+                    var resultStr = "<a class='tilesearch-result-save'>保存</a><a class='tilesearch-result-clear'>清除</a>";
+                    $("<div>" + resultStr + "</div>").appendTo(container.find(".tilesearch-result"));
+                    genSaveListening();
+                    genClearListening();
+                },
+                getFirstIndex = function (el) {
+                    var tmp = $(el).find(".tilesearch-first-index").text();
+                    if(tmp === "") { 
+                        return "";
+                    } else { 
+                        return parseInt(tmp);
+                    }
+                },
+                putFirstResultItem = function (el) { 
+                    var firstIndex = getFirstIndex(el),
+                        indexs = [];
+                    container.find(".tilesearch-result-item").each(function () { 
+                        indexs.push(parseInt($(this).next().text()));
+                    });
+
+                    for(var i = 0; i < indexs.length; i ++) { 
+                        if(firstIndex === indexs[i])return "";
+                    }
+
+                    $("<a class='tilesearch-result-item'>" + ops.result(ops.children[firstIndex]) + "</a><a style='display:none;'>" + firstIndex + "</a><a class='tilesearch-result-remove' style='color:red;'>×</a>").insertBefore(container.find(".tilesearch-result-save"));
+
+                    container.find(".tilesearch-result-remove").click(function () { 
+                        $(this).prev().remove();
+                        $(this).prev().remove();
+                        $(this).remove();
+                    });
+                },
+                putSecondResultItem = function (el, first) { 
+                    var secondIndex = $(el).find(".tilesearch-second-index").text(),
+                        indexs = [];
+                    container.find(".tilesearch-result-item").each(function () {
+                        indexs.push(parseInt($(this).next().text().split("-")[1]));
+                    });
+
+                    for(var i = 0; i < indexs.length; i ++) {
+                        if(secondIndex === "" || parseInt(secondIndex) === indexs[i])return "";
+                    }
+
+                    $("<a class='tilesearch-result-item'>" + ops.children[first].children[secondIndex] + "</a><a style='display:none;'>" + first + "-" + secondIndex + "</a><a class='tilesearch-result-remove' style='color:red;'>×</a>").insertBefore(container.find(".tilesearch-result-save"));
+
+                    container.find(".tilesearch-result-remove").click(function () { 
+                        $(this).prev().remove();
+                        $(this).prev().remove();
+                        $(this).remove();
+                    });
+                },
+                genSecondSearch = function (first) { 
+                    var str = "<ul>";
+                    for(var i = 0; i < ops.children[first].children.length; i ++) { 
+                        str += "<li class='tilesearch-second-item' style='display:block;float:left;list-style:none;padding:10px;'><a style='display:none;' class='tilesearch-second-index'>" + i + "</a>" + ops.children[first].children[i] + "</li>";
+                    }
+                    return str + "</ul>";
+                },
+                genSaveListening = function () { 
+                    container.find(".tilesearch-result-save").click(function () { 
+                        var indexs = [], value = "";
+                        container.find(".tilesearch-result-item").each(function () { 
+                            indexs.push($(this).next().text());
+                        });
+                        if(ops.select === 2) {
+                            for(var i = 0; i < indexs.length; i ++) { 
+                                if(i === 0) { 
+                                    value += ops.children[parseInt(indexs[i])];
+                                } else { 
+                                    value += "-" + ops.children[parseInt(indexs[i])];
+                                }
+                            }
+                        } else if (ops.select === 3) { 
+                            var first = parseInt(indexs[i].split("-")[0]);
+                            for(var i = 0; i < indexs.length; i ++) { 
+                                if(i === 0) { 
+                                    value += ops.children[first].value + "-" + ops.children[first].children[parseInt(indexs[i].split('-')[1])];
+                                } else { 
+                                    value += "-" + ops.children[indexs[0]].children[i];
+                                }
+                            }
+                        }
+                        if(typeof ops.callback.save === "function") {
+                            ops.callback.save.call(ops.callback.scope || this, ops.result(value));
+                        }
+                    });
+                },
+                genClearListening = function () { 
+                    container.find(".tilesearch-result-clear").click(function () { 
+                        container.find(".tilesearch-result").empty();
+                        putSaveAndClear();
+                    });
+                };
+
+            /* init */ 
+            $(genFirstSearch()).prependTo(container);
+            putSaveAndClear();
+            if(ops.select === 1) { 
+                container.find(".tilesearch-result").hide();
+            }
+            container.find(".tilesearch-first-item").click(function () {
+                var first = getFirstIndex(this);
+                if(ops.select === 1) { 
+                    if(typeof ops.callback.firstclick === "function") {
+                        ops.callback.firstclick.call(ops.callback.scope || this, ops.result(ops.children[first]));
+                    }
+                } else if (ops.select === 2) { 
+                    putFirstResultItem(this);
+                } else if (ops.select === 3) {
+                    container.find(".tilesearch-result").empty();
+                    putSaveAndClear();
+                    container.find(".tilesearch-second").show().empty().append(genSecondSearch(first));
+                    container.find(".tilesearch-second-item").click(function () { 
+                        putSecondResultItem(this, first);
+                    });
+                }
+            });
+            /* end init */
+        };
+        var ts = $.fn.tilesearch;
+        ts.defaults = { 
+            children : [],
+            select : 1, /*
+                            1 ： 一层单选
+                            2 ： 一层多选
+                            3 ： 二层多选
+                        */
+            result : function (value) { return value; },
+            callback : {}
+        };
+    })(jQuery);
+    triggle = { 
+        products : <%= @products %>,
+        chufas   : <%= @chufas %>,
+        destcats : <%= @destcats %>,
+        linetypes : <%= @linetypes %>
+    }
+    jQuery(document).ready(function(){
+        //其他选择 -- 彬
+        $(".test0").tilesearch ({ 
+            children : triggle.products,
+            select : 1,
+            result : function (f_value) { 
+                return f_value;
+            },
+            callback : { 
+                firstclick : function (result) { 
+                    console.log(result);
+                }
+            }
+        });
+        $(".test1").tilesearch ({ 
+            children : triggle.linetypes,
+            select : 2,
+            result : function (f_value) { 
+                return f_value;
+            },
+            callback : { 
+                save : function (result) { 
+                    console.log(result);
+                }
+            }
+        });
+        $(".test2").tilesearch ({ 
+            children : triggle.destcats,
+            select : 3,
+            result : function (value) { 
+                return value;
+            },
+            callback : { 
+                save : function (result) { 
+                    console.log(result);
+                }
+            }
+        });
+        $(".search-product").singleTriggle({ 
+            children : triggle.products,
+            title : '请选择产品类型',
+            callback : {
+                click : function (el, value, event) { 
+                    $(".search-product").val(value);
+                    $("#productS").val(value);
+                }
+            }
+        })
+
+        $(".search-chufa").singleTriggle({ 
+            children : triggle.chufas,
+            title : '请选择出发地',
+            callback : { 
+                click : function (el, value, event) { 
+                    $(".search-chufa").val(value);
+                }
+            }
+        });
+
+        $(".search-destcat").multiTriggle ({ 
+            children : triggle.destcats,
+            title : '请选择目的地',
+            firstCounts : 5,
+            secondCounts : 5,
+            callback : {
+                save : function (value, event) { 
+                    $(".search-destcat").val(value);
+                }
+            }
+        });
+
+        $(".search-linetype").singleTriggle ({ 
+            children : triggle.linetypes,
+            select : 'multi',
+            title : '请选择路线类型',
+            callback : { 
+                save : function (value, event) { 
+                    $(".search-linetype").val(value);
+                }
+            }
+        });
+
+        $(".search-days").singleTriggle ({ 
+            children : [
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "15天以上"
+            ],
+            title : '请选择天数',
+            counts : 16,
+            callback : { 
+                click : function (el, value, event) { 
+                    $(".search-days").val(value);
+                }
+            }
+        });        
+
+        $(".search-price").singleTriggle ({ 
+            children : [
+                "500以内", "500-1000", "1000-2000", "2000-4000", "4000-10000", "10000以上"
+            ],
+            title : '请选择价钱',
+            counts : 6,
+            callback : { 
+                click : function (el, value, event) { 
+                    $(".search-price").val(value);
+                }
+            }
+        });        
+
+        
+        //表格校验开始
+        jGrowl = { open: false };
+        jQuery("#formID").validationEngine();
+
+        //日期选择定义
+        $("#dateEnd").glDatePicker({
+            //cssName: "android",
+            onChange: function(target, newDate){
+                 target.val
+                 (
+                     newDate.getFullYear() + "-" +
+                     (newDate.getMonth() + 1) + "-" +
+                     newDate.getDate()
+                 );
+           }
+        });
+
+        $("#dateStart").glDatePicker({
+            //cssName: "android",
+            onChange: function(target, newDate){
+                 target.val
+                 (
+                     newDate.getFullYear() + "-" +
+                     (newDate.getMonth() + 1) + "-" +
+                     newDate.getDate()
+                 );
+           }
+        });
+
+        //清空
+        $(".initial u").click(function (){ 
+            $(this).prev().val("");
+        });
+
+
+        quickSearchjGrowl(); 
+        //$.Move("quickSearchjGrowlWindow");
+    });
+
+    //autocomplete扩展方法
+    function autocompleteSearch(dom,url,itemString){
+        $(dom).autocomplete(url,{ 
+            max:12,
+            delay:1,
+            dataType: "json",
+            parse: function(data) {  
+              return $.map(eval(data), function(row) {  
+                  return {  
+                       data: row,  
+                       result: row.name
+                    }  
+                });
+            },  
+            formatItem: function(item) {  
+                if(!itemString)
+                  return   item.name  ;  
+                else
+                  return itemString;
+            },  
+        });
+    }
+
+    //定义函数
+    function initForm(){ 
+        //autocomplete定义标签
+        autocompleteSearch("#pifaName","/homes/autocomplete_search.json?model=Pifa");
+        autocompleteSearch("#lineName","/homes/autocomplete_search.json?model=Linename");
+    }
+
+    //查询拖放窗口
+    function quickSearchjGrowl(){ 
+        /* 前台使用快速搜索代码  --> 复制这里的代码可以随时在html.erb中使用
+        <%= form_tag "/homes", :id => "quickSearch", :class => "quickSearch", :method => "get" do %>
+        产品分类<font  color="red">*</font>：
+        <%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :value => flash[:product_type], :size => 20 %><br>
+        线路编号：
+        <%=text_field :search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %><br>
+        品牌编号：
+        <%=text_field :search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>
+        <button>确定</button>
+        <%end%>
+        */
+
+        if(!jGrowl.open){  
+            var form_start = '<%= form_tag "/homes"  , :id => "quickSearch", :class => "quickSearch", :method => "get" do %>';
+        var product = '<%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :hidden => true, :value => flash[:product_type], :size => 20 %><br>'
+            var line_name = '线路名称：<%=text_field :quick_search, :line_name, :id =>"lineName",:value => flash[:line_name], :size => 20 %><br>';
+            var line_number = '线路编号：<%=text_field :quick_search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %><br>';
+            var pifa_name = '品牌编号：<%=text_field :quick_search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>';
+            var button='<button>确定</button>';
+            var form_end = '<% end %>';
+
+            var title="快速查询";
+            var content_string = form_start +  line_number + line_name + pifa_name + product +  button + form_end;
+            return $.jGrowl(content_string,{ 
+                sticky: true,
+                header: title,
+                position: "bottom-right",
+                close: function(){ 
+                    jGrowl.open = false;
+                },
+                afterOpen: function(){ 
+                    jGrowl.open = true;
+                    initForm();
+                },
+   			   		 nimateOpen: { 
+				   		     height: "show",
+				   		     width: "show"
+				   	   },
+            });
+        }
+    }
+
+</script>
+      <ul class='test0'><strong style='display:block;float:left;clear:both;'>test:</strong></ul>
+      <ul class='test1'><strong style='display:block;float:left;clear:both;'>test:</strong></ul>
+      <ul class='test2'><strong style='display:block;float:left;clear:both;'>test:</strong></ul>
+
+      <div id="quickSearchjGrowlWindow"></div>
+
+<div class="wrapper col3">
+  <div id="homecontent">
+    <div class="fl_left">
+      <div class="column2">
+        <ul>
+          <li>
+            <form id="formID" class="formular" action="/homes">
+            <b>详细搜索栏</b><br>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                产品分类<font  color="red">*</font>：<input readonly class="search-product"  name="type[product]" id="product" value=<%=flash[:product_type]%> ></input>
+                出发地 ：<div class='initial'><input style='display:initial;' class='search-chufa' type="text" name="search[chufa_name]" readonly value=<%= flash[:chufa_name]%> ></input><u>清除</u></div>
+                目的地：<div class='initial'><input style='display:initial;' class='search-destcat' type="text" readonly name="search[dest_name]" value=<%= flash[:dest_name]%>></input><u>清除</u></div>
+                线路类型：<div class='initial'><input style='display:initial;' class='search-linetype' type="text" readonly  name="search[linetype_name]" value=<%= flash[:linetype_name]%>></input><u>清除</u></div>
+              </td>
+              <td>
+                出团时间起：<input   class="validate[custom[date]]"  id="dateStart" name="search[daystart]" value=<%= flash[:daystart]%>></input>
+                出团时间止：<input  class="validate[custom[date]]"  id="dateEnd"  name="search[dayend]" value=<%= flash[:dayend]%>></input>
+                天数：<div class='initial'><input style='display:initial;' class="search-days" type="text" readonly  name="search[days]" value=<%= flash[:days]%>></input><u>清除</u></div>
+                价格：<div class='initial'><input style='display:initial;' class="search-price" type="text" readonly  name="search[price]" value=<%= flash[:price]%>></input><u>清除</u></div>
+               </td>
+              </tr>
+            </tbody>
+           </table>
+                <button>高级搜索</button>
+            </form>
+
+          </li>
+        </ul>
+        <br class="clear" />
+      </div>
+
+
+
+      <div class="column2">
+      
+      <h2>旅游发团搜索结果</h2>
+      <% if @results %>
+      <ul>
+          <% @search_results.each do |r| %>
+        <li>
+          <div class="imgholder"><a href="#"><img src="/images/demo/794_s.jpg" alt="" /></a></div>
+          <% unless r["visatype_name"]%>
+            <b>线路名称 ：</b><strong><a href="#"><%=r["line_name"]%></a></strong><br>
+            <b>线路编号 ：</b><%=r["id"]%><br>
+            <b>出发地 ：</b><%=r["chufa_name"]%><br>
+            <b>品牌名称 ：</b><%=r["pifa_name"]%><br>
+            <b>天数 ：</b><%=r["days"]%><br>
+            <b>星级 ：</b><%=r["star"]%><br>
+            <% if r["foods"] %>
+              <b>餐食 ：</b><%=r["foods"] %><br> 
+            <% end %>
+            <%if r["house_name"]  %>
+              <b>酒店类型 ：</b><%=r["house_name"] %><br> 
+            <% end %>
+            <b>有效期起 ：</b><%=r["daystart"]%><br>
+            <b>有效期止 ：</b><%=r["dayend"]%><br>
+            <b>总位 ：</b><%=r["total"]%>   <b>剩位 ：</b><font color="red"><%=r["left"]%></font><br>
+            <b>出发日期 ：</b><%=r["fatuanri"]%><br>
+            <b>同行价 ：</b><%=r["tonghang"]%><br>
+            <b>直客价 ：</b><%=r["zhike"]%><br>
+            <b>线路说明 ：</b><%=r["detail"]%><br>
+          <% else %>
+            <b>线路名称 ：</b><strong><a href="#"><%=r["line_name"]%></a></strong><br>
+            <b>线路编号 ：</b><%=r["id"]%><br>
+            <b>送签地 ：</b><%=r["songqiandi"]%><br>
+            <b>送签国 ：</b><%=r["songqianguo"]%><br>
+            <b>签证类型 ：</b><%=r["visatype_name"]%><br>
+            <b>所需资料 ：</b><%=r["document"]%><br>
+            <b>所需时间 ：</b><%=r["days"]%>个工作日<br>
+            <b>签证说明 ：</b><%=r["detail"]%><br>
+            <b>有效期起 ：</b><%=r["daystart"]%><br>
+            <b>有效期止 ：</b><%=r["dayend"]%><br>
+            <b>同行价 ：</b><%=r["tonghang"]%><br>
+            <b>直客价 ：</b><%=r["zhike"]%><br>
+          <% end %>
+        </li>
+        <% end %>
+      </ul>
+      <div class="digg_pagination">
+        <%= will_paginate @results, :container => false, :param_name => "quick_search_page" %>
+      </div>
+      <%else%>
+        没有该类型的发团
+      <% end %>
+      </div>
+
+    </div>
+
+    <div class="fl_right">
+
+    </div>
+    <br class="clear" />
+  </div>
+</div>
+<!-- ####################################################################################################### -->
