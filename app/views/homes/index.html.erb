@@ -154,13 +154,38 @@
         });
     }
 
-    //定义函数
+    //定义autocomplete函数
     function initForm(){ 
+        //日期选择定义
+        $("#dateEnd").glDatePicker({
+            onChange: function(target, newDate){
+                 target.val
+                 (
+                     newDate.getFullYear() + "-" +
+                     (newDate.getMonth() + 1) + "-" +
+                     newDate.getDate()
+                 );
+                 search();
+           }
+        });
+
+        $("#dateStart").glDatePicker({
+            onChange: function(target, newDate){
+                target.val
+                (
+                    newDate.getFullYear() + "-" +
+                    (newDate.getMonth() + 1) + "-" +
+                    newDate.getDate()
+                );
+                $("#dateEnd")[0].focus();
+           }
+        });
         //autocomplete定义标签
         autocompleteSearch("#pifaName","/homes/autocomplete_search.json?model=Pifa");
         autocompleteSearch("#lineName","/homes/autocomplete_search.json?model=Linename");
     }
 
+    /*
     //查询拖放窗口
     function quickSearchjGrowl(){ 
         /* 前台使用快速搜索代码  --> 复制这里的代码可以随时在html.erb中使用
@@ -173,7 +198,6 @@
         <%=text_field :search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>
         <button>确定</button>
         <%end%>
-        */
 
         if(!jGrowl.open){  
             var form_start = '<%= form_tag "/homes"  , :id => "quickSearch", :class => "quickSearch", :method => "get" do %>';
@@ -204,35 +228,8 @@
             });
         }
     }
+    */
 
-    jQuery(document).ready(function () { 
-        //日期选择定义
-        $("#dateEnd").glDatePicker({
-            //cssName: "android",
-            onChange: function(target, newDate){
-                 target.val
-                 (
-                     newDate.getFullYear() + "-" +
-                     (newDate.getMonth() + 1) + "-" +
-                     newDate.getDate()
-                 );
-                 search();
-           }
-        });
-
-        $("#dateStart").glDatePicker({
-            //cssName: "android",
-            onChange: function(target, newDate){
-                target.val
-                (
-                    newDate.getFullYear() + "-" +
-                    (newDate.getMonth() + 1) + "-" +
-                    newDate.getDate()
-                );
-                $("#dateEnd")[0].focus();
-           }
-        });
-    })
 
 </script>
 
@@ -269,19 +266,19 @@
                                       <label style='width:90px;' >线路名称：</label>
                                   </td>
                                   <td>
-                                      <input class='validate[required]' id='products' name='type[product]' value= <%= flash[:product_type] %>></input>
+                                      <input id='lineName' name='search[line_name]' value= <%= flash[:line_name] %>></input>
                                   </td>
                                   <td>
                                       <label style='width:90px;' >关键字：</label>
                                   </td>
                                   <td>
-                                      <input class='validate[required]' id='products' name='type[line_number]' value= <%= flash[:line_number] %>></input>
+                                      <input  id='lineNumber' name='search[line_number]' value= <%= flash[:line_number] %>></input>
                                   </td>
                                   <td>
-                                      <label style='width:90px;' >品牌编号：</label>
+                                      <label style='width:90px;' >批发商：</label>
                                   </td>
                                   <td>
-                                      <input class='validate[required]' id='products' name='type[pifa_name]' value= <%= flash[:pifa_name] %>></input>
+                                      <input id='pifaName' name='search[pifa_name]' value= <%= flash[:pifa_name] %>></input>
                                   </td>
                               </tr>
                           </table>
