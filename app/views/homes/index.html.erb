@@ -41,7 +41,6 @@
             window.location.href = "homes?" + $.param(result);
         }
         
-        /*
         callback = { 
             firstclick : function (result) { 
                 search();
@@ -59,7 +58,7 @@
                 search();
             }
         }
-        //*/
+        /*/
         callback = {  };
         //*/
 
@@ -123,12 +122,12 @@
         });
         var class2 = [ ".tilesearch-product", ".tilesearch-time", ]
         
-        //表格校验开始
-        jGrowl = { open: false };
-        jQuery("#formID").validationEngine();
+       // //表格校验开始
+       // jGrowl = { open: false };
+       // jQuery("#formID").validationEngine();
 
-        //quickSearchjGrowl(); 
-        //$.Move("quickSearchjGrowlWindow");
+       // //quickSearchjGrowl(); 
+       // //$.Move("quickSearchjGrowlWindow");
     });
 
     //autocomplete扩展方法
@@ -232,9 +231,6 @@
 
 
 </script>
-
-      <div id="quickSearchjGrowlWindow"></div>
-
 <div class="wrapper col3">
   <div id="homecontent">
       <table>
@@ -247,8 +243,8 @@
                       <ul class='tilesearch-parent tilesearch-destcat'>  <strong >目的地:</strong></ul>
                       <ul class='tilesearch-parent tilesearch-linetype'> <strong >线路类型:</strong></ul>
                       <div class='tilesearch-parent tilesearch-time'>     
-                          <div style='display:inline;'><span>出团时间起:</span><input readonly id='dateStart' value = <%= flash[:daystart] %>/></div>
-                          <div style='display:inline;'><span id='tilesearch-end'>出团时间止:</span><input readonly id='dateEnd' value = <%= flash[:dayend] %>/></div>
+                          <div style='display:inline;'><span>出团时间起:</span><input readonly id='dateStart' value = <%= flash[:daystart] %>></div>
+                          <div style='display:inline;'><span id='tilesearch-end'>出团时间止:</span><input readonly id='dateEnd' value = <%= flash[:dayend]%> ></div>
                       </div>
                       <ul class='tilesearch-parent tilesearch-day'>      <strong >天数:</strong></ul>
                       <ul class='tilesearch-parent tilesearch-price'>    <strong >价格:</strong></ul>
@@ -261,26 +257,27 @@
                   <div style='clear:both;'>
                       <form action="/homes" class='quickSearch' id="quickSearch" method='get' style='width:initial;border-color:#ccc;'>
                           <table id='quickSearch-table'>
-                              <tr>
-                                  <td>
-                                      <label style='width:90px;' >线路名称：</label>
-                                  </td>
-                                  <td>
-                                      <input id='lineName' name='search[line_name]' value= <%= flash[:line_name] %>></input>
-                                  </td>
-                                  <td>
-                                      <label style='width:90px;' >关键字：</label>
-                                  </td>
-                                  <td>
-                                      <input  id='lineNumber' name='search[line_number]' value= <%= flash[:line_number] %>></input>
-                                  </td>
-                                  <td>
-                                      <label style='width:90px;' >批发商：</label>
-                                  </td>
-                                  <td>
-                                      <input id='pifaName' name='search[pifa_name]' value= <%= flash[:pifa_name] %>></input>
-                                  </td>
-                              </tr>
+                           <tr>
+                            <input id='productS' name='type[quick_product]' hidden=true value= <%= flash[:product_type] %>></input>
+                            <td>
+                                <label style='width:90px;' >线路名称：</label>
+                            </td>
+                            <td>
+                            <input id='lineName' name='quick_search[line_name]' value= <%= flash[:line_name] %>></input>
+                             </td>
+                            <td>
+                                <label style='width:90px;' >关键字：</label>
+                            </td>
+                            <td>
+                                <input  id='lineNumber' name='quick_search[line_number]' value= <%= flash[:line_number] %>></input>
+                            </td>
+                            <td>
+                                <label style='width:90px;' >批发商：</label>
+                            </td>
+                            <td>
+                                <input id='pifaName' name='quick_search[pifa_name]' value= <%= flash[:pifa_name] %>></input>
+                            </td>
+                           </tr>
                           </table>
                          <div style="padding-left:800px"> <button>快速查找</button></div>
                       </form>
