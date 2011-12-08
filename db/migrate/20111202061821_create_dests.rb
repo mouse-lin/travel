@@ -2,6 +2,7 @@ class CreateDests < ActiveRecord::Migration
   def change
     create_table :dests do |t|
       t.string :name
+      t.boolean :country
       t.references :destcat
 
       t.timestamps

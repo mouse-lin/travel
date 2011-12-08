@@ -2,8 +2,8 @@ class CreateGuoneifatuans < ActiveRecord::Migration
   def change
     create_table :guoneifatuans do |t|
       t.references :guonei
-      t.string :fatuanri
       t.references :star
+      t.string :fatuanri
       t.integer :left
       t.integer :total
       t.integer :tonghang
