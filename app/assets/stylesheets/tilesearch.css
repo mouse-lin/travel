@@ -7,6 +7,14 @@
     width : 600px;
 }
 .tilesearch-result { clear : both; padding : 10px;  }
+.tilesearch-all { 
+    display : block; 
+    float : left; 
+    list-style : none;
+    margin : 3px; 
+    padding : 3px 5px;
+    cursor : pointer;
+}
 .tilesearch-first-item {
     display : block; 
     float : left; 

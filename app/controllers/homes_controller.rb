@@ -4,7 +4,7 @@ class HomesController < ApplicationController
     #调用快速查找方式，@results 与 @search_results 为分别数据,提供@results作为外部数据接口
     quick_search
 
-    @products = (Product.all.collect &:name).to_json.html_safe
+    @products = (Product.all.collect { |product| { "value" => product.name, "children" => product.companies.collect(&:name) } }).to_json.html_safe
     @chufas = (Chufa.all.collect &:name).to_json.html_safe
     @destcats = (Destcat.all.collect { |destcat| { "value" => destcat.name, "children" => destcat.dests.collect(&:name) } }).to_json.html_safe
     @linetypes = (Linetype.all.collect &:name).to_json.html_safe
@@ -50,7 +50,7 @@ private
          dayend = params[:search][:dayend][0] if params[:search][:dayend]
 
          flash[:chufa_name] = [chufa_name]
-         flash[:dest_name] = [dest_name]
+         flash[:dest_name] = dest_name.clone
          flash[:linetype_name] = linetype_name
          flash[:days] = [days]
          flash[:price] = [price]

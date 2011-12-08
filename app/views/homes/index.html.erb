@@ -6,7 +6,12 @@
         linetypes : <%= @linetypes %>
     }
     originValue = { 
-        product : <%= flash["product"].to_json.html_safe %> || triggle.products[0]
+        product : <%= flash[:product].to_json.html_safe %> || triggle.products[0],
+        chufa : <%= flash[:chufa_name].to_json.html_safe %> || [],
+        linetype : <%= flash[:linetype_name].to_json.html_safe %> || [],
+        price : <%= flash[:price].to_json.html_safe %> || [],
+        days : <%= flash[:days].to_json.html_safe %> || [],
+        destcat : <%= flash[:dest_name].to_json.html_safe %> || []
     }
     jQuery(document).ready(function(){
         //其他选择 -- 彬
@@ -26,12 +31,16 @@
             $(".tilesearch-destcat").find(".tilesearch-result-item").each (function () { 
                 result.search.dest_name.push($(this).text());
             })
-            $(".tilesearch-linetype").find(".tilesearch-result-item").each (function () { 
-                result.search.linetype_name.push($(this).text());
-            })
-            $(".tilesearch-day").find(".tilesearch-result-item").each (function () { 
-                result.search.days.push($(this).text());
-            })
+            if(result.type.product[0] !== "签证") { 
+                $(".tilesearch-linetype").find(".tilesearch-result-item").each (function () { 
+                    result.search.linetype_name.push($(this).text());
+                })
+            }
+            if(result.type.product[0] !== "签证") { 
+                $(".tilesearch-day").find(".tilesearch-result-item").each (function () { 
+                    result.search.days.push($(this).text());
+                })
+            }
             $(".tilesearch-price").find(".tilesearch-result-item").each (function () { 
                 result.search.price.push($(this).text());
             })
@@ -58,13 +67,14 @@
                 search();
             }
         }
-        /*/
+        //*/
+        /*
         callback = {  };
         //*/
 
         $(".tilesearch-chufa").tilesearch ({ 
             children : triggle.chufas,
-            origin : <%= flash["chufa_name"].to_json.html_safe %> || [triggle.chufas[0]],
+            origin : originValue.chufa,
             select : 1,
             result : function (f_value) { 
                 return f_value;
@@ -73,17 +83,28 @@
         });
         $(".tilesearch-product").tilesearch ({ 
             children : triggle.products,
-            select : 1,
-            origin : <%= flash["product"].to_json.html_safe %> || [triggle.products[0]],
+            select : 4,
+            hideall : true,
+            origin : originValue.product,
             result : function (f_value) {
                 return f_value;
             },
-            callback : callback
+            callback : $.extend({  }, callback, { 
+                beforeorigin : function () { 
+                    if( originValue.product.length > 0 && originValue.product[0] === "签证") {
+                        $(".tilesearch-chufa strong").text("送签地:");
+                        $(".tilesearch-destcat strong").text("送签国:");
+                        $(".tilesearch-linetype").hide();
+                        $(".tilesearch-day").hide();
+                    }
+                    return;
+                }
+            })
         });
         $(".tilesearch-linetype").tilesearch ({ 
             children : triggle.linetypes,
             select : 2,
-            origin : <%= flash["linetype_name"].to_json.html_safe %> || [],
+            origin : originValue.linetype,
             result : function (f_value) { 
                 return f_value;
             },
@@ -93,8 +114,8 @@
             children : [
                 "500以内", "500-1000", "1000-2000", "2000-4000", "4000-10000", "10000以上"
             ],
-            select : 2,
-            origin : <%= flash["price"].to_json.html_safe %> || [],
+            select : 1,
+            origin : originValue.price,
             result : function (f_value) { 
                 return f_value;
             },
@@ -104,8 +125,8 @@
             children : [
                 "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "15天以上"
             ],
-            select : 2,
-            origin : <%= flash["day"].to_json.html_safe %> || [],
+            select : 1,
+            origin : originValue.days,
             result : function (f_value) { 
                 return f_value;
             },
@@ -117,7 +138,7 @@
             result : function (value) { 
                 return value;
             },
-            origin : <%= flash["dest_name"].to_json.html_safe %> || [],
+            origin : originValue.destcat,
             callback : callback
         });
         var class2 = [ ".tilesearch-product", ".tilesearch-time", ]
@@ -179,6 +200,12 @@
                 $("#dateEnd")[0].focus();
            }
         });
+        $(".tilesearch-time u").click (function () { 
+            $("#dateStart").val("");
+            $("#dateEnd").val("");
+
+            search();
+        });
         //autocomplete定义标签
         autocompleteSearch("#pifaName","/homes/autocomplete_search.json?model=Pifa");
         autocompleteSearch("#lineName","/homes/autocomplete_search.json?model=Linename");
@@ -238,13 +265,13 @@
               <td>
                   <table style='margin:0px;'>
                       <td>
-                      <ul class='tilesearch-parent tilesearch-chufa'>    <strong >出发地:</strong></ul>
                       <ul class='tilesearch-parent tilesearch-product'>  <strong >产品类型:</strong></ul>
+                      <ul class='tilesearch-parent tilesearch-chufa'>    <strong >出发地:</strong></ul>
                       <ul class='tilesearch-parent tilesearch-destcat'>  <strong >目的地:</strong></ul>
                       <ul class='tilesearch-parent tilesearch-linetype'> <strong >线路类型:</strong></ul>
                       <div class='tilesearch-parent tilesearch-time'>     
                           <div style='display:inline;'><span>出团时间起:</span><input readonly id='dateStart' value = <%= flash[:daystart] %>></div>
-                          <div style='display:inline;'><span id='tilesearch-end'>出团时间止:</span><input readonly id='dateEnd' value = <%= flash[:dayend]%> ></div>
+                          <div style='display:inline;'><span id='tilesearch-end'>出团时间止:</span><input readonly id='dateEnd' value = <%= flash[:dayend]%> ><u>清除</u></div>
                       </div>
                       <ul class='tilesearch-parent tilesearch-day'>      <strong >天数:</strong></ul>
                       <ul class='tilesearch-parent tilesearch-price'>    <strong >价格:</strong></ul>
