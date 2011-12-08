@@ -19,7 +19,6 @@ end
 gem 'jquery-rails'
 
 gem 'therubyracer'
-#gem "mongrel", ">=1.2.0.pre2"
 
 #gem 'therubyracer-heroku', '0.8.1.pre3' 
 #  gem 'pg'
@@ -48,5 +47,6 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
   gem 'ruby-debug19', :require => 'ruby-debug'
+  gem "mongrel", ">=1.2.0.pre2"
 end
 
