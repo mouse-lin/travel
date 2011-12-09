@@ -60,7 +60,7 @@ private
          #判断是否为游轮
          if params[:type][:product].count != 1
            company_array = params[:type][:product].clone
-           company_array.delete(product)
+           company_array.delete_at(0)
            search_hash.merge!({ :line_company_name_in => company_array })
          end
         flash[:product] = params[:type][:product].clone
