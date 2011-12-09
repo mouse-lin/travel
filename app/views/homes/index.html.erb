@@ -361,8 +361,16 @@
           <div class="imgholder"><a href="#"><img src="/images/demo/794_s.jpg" alt="" /></a></div>
           <% unless r["visatype_name"]%>
             <b>线路名称 ：</b><strong><a href="#"><%=r["line_name"]%></a></strong><br>
+            <b>产品类型 ：</b><%=r["product_type"]%><br>
             <b>线路编号 ：</b><%=r["id"]%><br>
             <b>出发地 ：</b><%=r["chufa_name"]%><br>
+            <%if r["dest_name"]%>
+              <b>目的地</b>:
+              <% r["dest_name"].each do |n|%>
+                <%=n%> &nbsp
+              <% end %>
+              <br>
+            <%end %>
             <b>品牌名称 ：</b><%=r["pifa_name"]%><br>
             <b>天数 ：</b><%=r["days"]%><br>
             <b>星级 ：</b><%=r["star"]%><br>

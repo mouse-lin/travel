@@ -219,6 +219,7 @@ Line.create!([
  { 
   :pifa_id => Pifa.first.id,
   :lianxiren_id => Lianxiren.first.id, 
+  :chufa_id => Chufa.first.id,
   :days => 5,
   :detail => "个人资料表",
   :linename_id => Linename.first.id,
@@ -227,6 +228,7 @@ Line.create!([
  { 
   :pifa_id => Pifa.last.id,
   :lianxiren_id => Lianxiren.first.id, 
+  :chufa_id => Chufa.last.id,
   :days => 5,
   :detail => "个人资料表",
   :product_id => 4,
@@ -246,7 +248,7 @@ Linefatuan.create!([
     :zhike => 600
   },
   { 
-    :line_id => Line.first.id, 
+    :line_id => 2, 
     :star_id => Star.first.id,
     :fatuanri => "天天发团",
     :daystart => "2011-11-01",
@@ -257,7 +259,7 @@ Linefatuan.create!([
     :zhike => 600 
   },
  { 
-  :line_id => 2,
+  :line_id => 3,
   :star_id => Star.last.id,
   :fatuanri => "每周星期五", 
   :daystart => "2011-12-11", 
@@ -268,7 +270,7 @@ Linefatuan.create!([
   :zhike => 600
   },
  { 
-  :line_id => 2,
+  :line_id => 4,
   :star_id => Star.first.id, 
   :fatuanri => "天天发团", 
   :daystart => "2011-11-01",
@@ -279,7 +281,7 @@ Linefatuan.create!([
   :zhike => 600
  },
  { 
-  :line_id => 3,
+  :line_id => 5,
   :foods => "FB",
   :house_id => House.first.id,
   :star_id => Star.last.id,
@@ -292,7 +294,7 @@ Linefatuan.create!([
   :zhike => 600
  },
  { 
-  :line_id => 3,
+  :line_id => 6,
   :house_id => House.last.id,
   :foods => "HB",
   :star_id => Star.first.id,
@@ -305,23 +307,25 @@ Linefatuan.create!([
   :zhike => 600
  },
  { 
-  :line_id => 4,
+  :line_id => 9,
   :visatype_id => Visatype.first.id,
   :document => "个人资料表",
+  :zhike => 3000,
   :tonghang => 3680,
   :daystart => "2011-11-01",
   :dayend => "2011-11-30", 
  },
  { 
-  :line_id => 4,
+  :line_id => 10,
   :visatype_id => Visatype.last.id,
   :document => "个人资料表,身份证等",
+  :zhike => 3300,
   :tonghang => 4680,
   :daystart => "2011-11-01",
   :dayend => "2011-12-30", 
  },
   { 
-  :line_id => 5,
+  :line_id => 8,
   :house_id => House.last.id,
   :foods => "HB",
   :star_id => Star.first.id,
@@ -334,7 +338,7 @@ Linefatuan.create!([
   :zhike => 600
  },
  { 
-  :line_id => 5,
+  :line_id => 7,
   :house_id => House.last.id,
   :foods => "HB",
   :star_id => Star.first.id,

@@ -41,9 +41,6 @@ private
        linetype_name = dest_name = []
        if params[:search] #触发了详细搜索条件
 
-         flash[:product] = params[:type][:product]
-         flash[:quick_product] = flash[:product][0]
-
          #详细搜索
          chufa_name = params[:search][:chufa_name][0] if params[:search][:chufa_name]
          dest_name = params[:search][:dest_name] if params[:search][:dest_name]
@@ -79,10 +76,19 @@ private
       # end
       # flash[:product_type] = params[:type][:product]
       search_hash = {  }
-      product = flash[:quick_product]  #构造product类型的查询条件
-      @search_results = []
+      flash[:product] = params[:type][:product].clone
+      flash[:quick_product] = flash[:product][0]
 
-      
+      product = flash[:quick_product]  #构造product类型的查询条件
+
+
+      @search_results = []
+      #判断是否为游轮
+      if params[:type][:product].count != 1
+        company_array = params[:type][:product].clone
+        company_array.delete(product)
+        search_hash.merge!({ :line_company_name_in => company_array })
+      end
 
        #判断价格范围
        unless price.blank?
@@ -96,6 +102,7 @@ private
 
       #构造查询条件
       search_hash.merge!({ 
+          :line_chufa_name_contains => chufa_name,
           :line_product_name_contains => product,
           :line_dests_name_in => dest_name,
           :line_dests_destcat_name_contains => destcat_name,
@@ -108,16 +115,17 @@ private
       days == "15天以上" ? search_hash.merge!({ :line_days_greater_than => 15}) : search_hash.merge!({ :line_days_equals => days})
       @results = Linefatuan.search(search_hash).paginate(:page => params[:quick_search_page],:per_page => page).each do |l|
        l = l.attributes.merge({ 
-         "line_name" => l.line.linename.name,
-         "pifa_name" => l.line.pifa.name,
-         "chufa_name" => l.line.chufa.name,
+         "product_type" => l.line.product.name,
+         "line_name" => l.line.try(:linename).try(:name),
+         "pifa_name" => l.line.pifa.try(:name),
+         "chufa_name" => l.line.chufa.try(:name),
+         "dest_name" => (l.line.dests.collect &:name),
          "days" => l.line.days,
-         "star" => l.star.name,
+         "star" => l.star.try(:name),
          "detail" => l.line.detail,
        })
        @search_results << l
      end
-
 
       # #执行跨表搜索
       # if product_type == "国内跟团游"
