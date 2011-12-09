@@ -169,7 +169,7 @@
                         }
                         var seconds = container.find(".tilesearch-second-item");
                         for(var i = 1; i < ops.origin.length; i ++) {
-                            for(var j = 1; j < seconds.length; j ++) { 
+                            for(var j = 0; j < seconds.length; j ++) { 
                                 if($(seconds[j]).text() == ops.origin[i]) { 
                                     $(seconds[j]).css("color", "#02ACEE");
                                 }

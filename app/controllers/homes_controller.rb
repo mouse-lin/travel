@@ -31,16 +31,12 @@ private
      #是否有触发 查询 || 分页条件
      if params[:quick_search] || params[:quick_search_page] || params[:search]
        page = 10 #分页
-
-         
-        # flash[:quick_product] = params[:type][:quick_product]
-        # flash[:product] = [flash[:quick_product]]
-
-
-       chufa_name =  days = price = daystart = dayend = destcat_name = line_number = line_name =  ""
+       chufa_name =  days = price = daystart = dayend = destcat_name = line_number = pifa_name = line_name = ""
        linetype_name = dest_name = []
-       if params[:search] #触发了详细搜索条件
-
+       @search_results = []
+       search_hash = {  }
+       #触发了详细搜索条件
+       if params[:search] 
          #详细搜索
          chufa_name = params[:search][:chufa_name][0] if params[:search][:chufa_name]
          dest_name = params[:search][:dest_name] if params[:search][:dest_name]
@@ -57,39 +53,31 @@ private
          flash[:price] = [price]
          flash[:daystart] = daystart
          flash[:dayend] = dayend
-       end
-
-       if dest_name.count == 1
-         destcat_name = dest_name[0]
-         dest_name.delete(destcat_name)
-       end
-
-      # else
-      #   #快速搜索
-      #   pifa_name = params[:quick_search][:pifa_name] 
-      #   line_number = params[:quick_search][:line_number] 
-      #   line_name = params[:quick_search][:line_name] 
-      #   #保存form请求前台搜索数据,前台也可以直接使用params来赋值，这里使用了flash cookide保存方式
-      #   flash[:line_number] = line_number
-      #   flash[:line_name] = line_name
-      #   flash[:pifa_name] = pifa_name
-      # end
-      # flash[:product_type] = params[:type][:product]
-      search_hash = {  }
-      flash[:product] = params[:type][:product].clone
-      flash[:quick_product] = flash[:product][0]
-
-      product = flash[:quick_product]  #构造product类型的查询条件
-
-
-      @search_results = []
-      #判断是否为游轮
-      if params[:type][:product].count != 1
-        company_array = params[:type][:product].clone
-        company_array.delete(product)
-        search_hash.merge!({ :line_company_name_in => company_array })
+         if dest_name.count == 1
+           destcat_name = dest_name[0]
+           dest_name.delete(destcat_name)
+         end
+         #判断是否为游轮
+         if params[:type][:product].count != 1
+           company_array = params[:type][:product].clone
+           company_array.delete(product)
+           search_hash.merge!({ :line_company_name_in => company_array })
+         end
+        flash[:product] = params[:type][:product].clone
+        flash[:quick_product] = flash[:product][0]
+      else
+        #快速搜索
+        pifa_name = params[:quick_search][:pifa_name] 
+        line_number = params[:quick_search][:line_number] 
+        line_name = params[:quick_search][:line_name] 
+        #保存form请求前台搜索数据,前台也可以直接使用params来赋值，这里使用了flash cookide保存方式
+        flash[:line_number] = line_number
+        flash[:line_name] = line_name
+        flash[:pifa_name] = pifa_name
+        flash[:quick_product] = params[:type][:quick_product]
+        flash[:product] = [flash[:quick_product]]
       end
-
+       product = flash[:quick_product]  #构造product类型的查询条件
        #判断价格范围
        unless price.blank?
          unless price.include? "以"
@@ -109,7 +97,8 @@ private
           :line_linetypes_name_in => linetype_name,
           :daystart_equals => daystart,
           :dayend_equals => dayend,
-          :line_pifa_name_contains => line_name,
+          :line_pifa_name_contains => pifa_name,
+          :line_linename_name_contains => line_name,
           :id_equals => line_number
       })
       days == "15天以上" ? search_hash.merge!({ :line_days_greater_than => 15}) : search_hash.merge!({ :line_days_equals => days})
