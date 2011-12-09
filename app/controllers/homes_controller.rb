@@ -6,7 +6,11 @@ class HomesController < ApplicationController
 
     @products = (Product.all.collect { |product| { "value" => product.name, "children" => product.companies.collect(&:name) } }).to_json.html_safe
     @chufas = (Chufa.all.collect &:name).to_json.html_safe
-    @destcats = (Destcat.all.collect { |destcat| { "value" => destcat.name, "children" => destcat.dests.collect(&:name) } }).to_json.html_safe
+    unless(flash[:product][0] == '签证')
+      @destcats = (Destcat.all.collect { |destcat| { "value" => destcat.name, "children" => destcat.dests.collect(&:name) } }).to_json.html_safe
+    else
+      @destcats = (Destcat.all.collect { |destcat| { "value" => destcat.name, "children" => (destcat.dests.collect { |dest| dest[:name] unless dest[:country].blank? }).compact } }).to_json.html_safe
+    end
     @linetypes = (Linetype.all.collect &:name).to_json.html_safe
   end
 

@@ -116,6 +116,10 @@
                     ops.callback.beforeorigin.call(ops.callback.scope || this, ts);
                 }
 
+                if(ops.origin.length == 0 || (ops.origin.length == 1 && ops.origin[0] === "")) {
+                    container.find(".tilesearch-all").css("color", "#02ACEE");
+                }
+
                 var firsts = container.find(".tilesearch-first-item");
                 if(ops.select === 1) { 
                     for(var i = 0; i < ops.origin.length; i ++) { 
@@ -204,6 +208,10 @@
             container.find(".tilesearch-all").click (function () { 
                 $(this).css("color", "#02ACEE");
                 emptyResult();
+
+                if(typeof ops.callback.allsearch === "function") {
+                    ops.callback.allsearch.call(ops.callback.scope || this, save(), ts);
+                }
             })
         }
         putOriginValues();

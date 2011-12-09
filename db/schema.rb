@@ -20,20 +20,20 @@ ActiveRecord::Schema.define(:version => 20111208044331) do
   end
 
   create_table "chujingfatuans", :force => true do |t|
-    t.integer  "guonei_id"
+    t.integer  "chujing_id"
     t.string   "fatuanri"
     t.integer  "star_id"
     t.integer  "left"
     t.integer  "total"
     t.integer  "tonghang"
     t.integer  "zhike"
-    t.time     "daystart"
-    t.time     "dayend"
+    t.date     "daystart"
+    t.date     "dayend"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "chujingfatuans", ["guonei_id"], :name => "index_chujingfatuans_on_guonei_id"
+  add_index "chujingfatuans", ["chujing_id"], :name => "index_chujingfatuans_on_chujing_id"
   add_index "chujingfatuans", ["star_id"], :name => "index_chujingfatuans_on_star_id"
 
   create_table "chujings", :force => true do |t|
@@ -75,12 +75,14 @@ ActiveRecord::Schema.define(:version => 20111208044331) do
 
   create_table "destcats", :force => true do |t|
     t.string   "name"
+    t.boolean  "country"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "dests", :force => true do |t|
     t.string   "name"
+    t.boolean  "country"
     t.integer  "destcat_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -118,14 +120,14 @@ ActiveRecord::Schema.define(:version => 20111208044331) do
 
   create_table "guoneifatuans", :force => true do |t|
     t.integer  "guonei_id"
-    t.string   "fatuanri"
     t.integer  "star_id"
+    t.string   "fatuanri"
     t.integer  "left"
     t.integer  "total"
     t.integer  "tonghang"
     t.integer  "zhike"
-    t.time     "daystart"
-    t.time     "dayend"
+    t.date     "daystart"
+    t.date     "dayend"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -240,7 +242,7 @@ ActiveRecord::Schema.define(:version => 20111208044331) do
 
   create_table "linetypes_zhiyous", :force => true do |t|
     t.integer  "zhiyou_id"
-    t.integer  "lientype_id"
+    t.integer  "linetype_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -259,20 +261,22 @@ ActiveRecord::Schema.define(:version => 20111208044331) do
 
   create_table "qianzhengs", :force => true do |t|
     t.integer  "pifa_id"
-    t.string   "songqiandi"
-    t.string   "songqianguo"
+    t.integer  "chufa_id"
+    t.integer  "linename_id"
+    t.text     "detail"
+    t.integer  "days"
+    t.integer  "dest_id"
     t.integer  "visatype_id"
     t.text     "document"
-    t.integer  "days"
-    t.text     "detail"
     t.integer  "tonghang"
     t.integer  "zhike"
-    t.time     "daystart"
-    t.time     "dayend"
+    t.date     "daystart"
+    t.date     "dayend"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "qianzhengs", ["linename_id"], :name => "index_qianzhengs_on_linename_id"
   add_index "qianzhengs", ["pifa_id"], :name => "index_qianzhengs_on_pifa_id"
 
   create_table "sessions", :force => true do |t|
@@ -298,7 +302,7 @@ ActiveRecord::Schema.define(:version => 20111208044331) do
   end
 
   create_table "zhiyoufatuans", :force => true do |t|
-    t.integer  "guonei_id"
+    t.integer  "zhiyou_id"
     t.string   "fatuanri"
     t.integer  "star_id"
     t.integer  "house_id"
@@ -307,15 +311,15 @@ ActiveRecord::Schema.define(:version => 20111208044331) do
     t.integer  "total"
     t.integer  "tonghang"
     t.integer  "zhike"
-    t.time     "daystart"
-    t.time     "dayend"
+    t.date     "daystart"
+    t.date     "dayend"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "zhiyoufatuans", ["guonei_id"], :name => "index_zhiyoufatuans_on_guonei_id"
   add_index "zhiyoufatuans", ["house_id"], :name => "index_zhiyoufatuans_on_house_id"
   add_index "zhiyoufatuans", ["star_id"], :name => "index_zhiyoufatuans_on_star_id"
+  add_index "zhiyoufatuans", ["zhiyou_id"], :name => "index_zhiyoufatuans_on_zhiyou_id"
 
   create_table "zhiyous", :force => true do |t|
     t.integer  "pifa_id"
