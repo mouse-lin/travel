@@ -102,7 +102,21 @@ private
           :id_equals => line_number
       })
       days == "15天以上" ? search_hash.merge!({ :line_days_greater_than => 15}) : search_hash.merge!({ :line_days_equals => days})
-      @results = Linefatuan.search(search_hash).paginate(:page => params[:quick_search_page],:per_page => page).each do |l|
+     # @results = Linefatuan.search(search_hash).paginate(:page => params[:quick_search_page],:per_page => page).each do |l|
+     #  l = l.attributes.merge({ 
+     #    "product_type" => l.line.product.name,
+     #    "line_name" => l.line.try(:linename).try(:name),
+     #    "pifa_name" => l.line.pifa.try(:name),
+     #    "chufa_name" => l.line.chufa.try(:name),
+     #    "dest_name" => (l.line.dests.collect &:name),
+     #    "days" => l.line.days,
+     #    "star" => l.star.try(:name),
+     #    "detail" => l.line.detail,
+     #  })
+     #  @search_results << l
+      count = Linefatuan.search(search_hash).count
+      params[:page] = 1 unless params[:page] 
+      @results = Linefatuan.search(search_hash).page(params[:page]).limit(1).each do |l|
        l = l.attributes.merge({ 
          "product_type" => l.line.product.name,
          "line_name" => l.line.try(:linename).try(:name),
@@ -115,123 +129,9 @@ private
        })
        @search_results << l
      end
-
-      # #执行跨表搜索
-      # if product_type == "国内跟团游"
-      #   search_hash.merge!({ 
-      #     :guonei_chufa_name_contains => chufa_name,
-      #     :guonei_dests_name_in => dest_array,
-      #     :guonei_dests_destcat_name_contains => destcat_name,
-      #     :guonei_linetypes_name_in => linetype_array,
-      #     :daystart_equals => daystart,
-      #     :dayend_equals => dayend,
-      #     :guonei_pifa_name_contains => pifa_name,
-      #     :guonei_linename_name_contains => line_name,
-      #     :id_equals => line_number
-      #   })
-      #   if days == "15天以上"
-      #     search_hash.merge!({ :guonei_days_greater_than => 15})
-      #   else
-      #     search_hash.merge!({ :guonei_days_equals => days})
-      #   end
-      #   @results = Guoneifatuan.search(search_hash).paginate(:page => params[:quick_search_page],:per_page => page).each do |r|
-      #     r = r.attributes.merge({ 
-      #       "line_name" => r.guonei.linename.name,
-      #       "pifa_name" => r.guonei.pifa.name,
-      #       "chufa_name" => r.guonei.chufa.name,
-      #       "days" => r.guonei.days,
-      #       "star" => r.star.name,
-      #       "detail" => r.guonei.detail,
-      #     })
-      #     @search_results << r
-      #   end
-
-      # elsif product_type == "出境跟团游"
-      #   search_hash.merge!({ 
-      #     :chujing_chufa_name_contains => chufa_name,
-      #     :chujing_dests_name_in => dest_array,
-      #     :chujing_dests_destcat_name_contains => destcat_name,
-      #     :chujing_linetypes_name_in => linetype_array,
-      #     :daystart_equals => daystart,
-      #     :dayend_equals => dayend,
-      #     :chujing_pifa_name_contains => pifa_name,
-      #     :chujing_linename_name_contains => line_name,
-      #     :id_equals => line_number
-      #   })
-      #   if days == "15天以上"
-      #     search_hash.merge!({ :chujing_days_greater_than => 15})
-      #   else
-      #     search_hash.merge!({ :chujing_days_equals => days})
-      #   end
-      #   @results = Chujingfatuan.search(search_hash).paginate(:page => params[:quick_search_page],:per_page => page).each do |r|
-      #     r = r.attributes.merge({ 
-      #       "line_name" => r.chujing.linename.name,
-      #       "pifa_name" => r.chujing.pifa.name,
-      #       "chufa_name" => r.chujing.chufa.name,
-      #       "days" => r.chujing.days,
-      #       "star" => r.star.name,
-      #       "detail" => r.chujing.detail,
-      #     })
-      #     @search_results << r
-      #   end
-
-      # elsif product_type == "自由人"
-      #   search_hash.merge!({ 
-      #     :zhiyou_chufa_name_contains => chufa_name,
-      #     :zhiyou_dests_name_in => dest_array,
-      #     :zhiyou_dests_destcat_name_contains => destcat_name,
-      #     :zhiyou_linetypes_name_in => linetype_array,
-      #     :daystart_equals => daystart,
-      #     :dayend_equals => dayend,
-      #     :zhiyou_pifa_name_contains => pifa_name,
-      #     :zhiyou_linename_name_contains => line_name,
-      #     :id_equals => line_number
-      #   })
-      #   if days == "15天以上"
-      #     search_hash.merge!({ :zhiyou_days_greater_than => 15})
-      #   else
-      #     search_hash.merge!({ :zhiyou_days_equals => days})
-      #   end
-      #   @results = Zhiyoufatuan.search(search_hash).paginate(:page => params[:quick_search_page],:per_page => page).each do |r|
-      #     r = r.attributes.merge({ 
-      #       "line_name" => r.zhiyou.linename.name,
-      #       "pifa_name" => r.zhiyou.pifa.name,
-      #       "chufa_name" => r.zhiyou.chufa.name,
-      #       "days" => r.zhiyou.days,
-      #       "star" => r.star.name,
-      #       "house_name" => r.house.name,
-      #       "detail" => r.zhiyou.detail,
-      #     })
-      #     @search_results << r
-      #   end
-
-      # elsif product_type == "签证"
-      #   search_hash.merge!({ 
-      #     :dests_destcat_name_contains => destcat_name,
-      #     :daystart_equals => daystart,
-      #     :dayend_equals => dayend,
-      #     :pifa_name_contains => pifa_name,
-      #     :linename_name_contains => line_name,
-      #     :id_equals => line_number
-      #   })
-      #   if days == "15天以上"
-      #     search_hash.merge!({ :days_greater_than => 15})
-      #   else
-      #     search_hash.merge!({ :days_equals => days})
-      #   end
-      #   @results = Qianzheng.search(search_hash).paginate(:page => params[:quick_search_page],:per_page => page).each do |r|
-      #     r = r.attributes.merge({ 
-      #       "line_name" => r.linename.name,
-      #       "visatype_name" => r.visatype.name,
-      #       "pifa_name" => r.pifa.name,
-      #       "days" => r.days,
-      #       "detail" => r.detail,
-      #     })
-      #     @search_results << r
-      #   end
-      # end
-      @search_results.uniq!
       @results.uniq!
+      @search_results.uniq!
+      render_json @search_results,count
      end
    end
 

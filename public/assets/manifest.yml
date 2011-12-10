@@ -11,12 +11,13 @@ demo/80x80.gif: demo/80x80-009023c99c6b7828450543041ac3e15e.gif
 demo/avatar.gif: demo/avatar-02e5d06aa7528b30f978ab2a1dd823e9.gif
 demo/imgl.gif: demo/imgl-7ea943c772bc409ec8c07cb492e5fb24.gif
 demo/imgr.gif: demo/imgr-42c9aec012efb12a3b61667521966b13.gif
+orange_loading.gif: orange_loading-605318eae90b3990bd7ceec98bdec845.gif
 rails.png: rails-e4b51606cd77fda2615e7439907bfc92.png
 slide.png: slide-cff8053daa280d62b40b86d048c667a1.png
 tab_l.gif: tab_l-3feeca4b2764a6fc5ca47d79834f0f7f.gif
 tab_r.gif: tab_r-7c72051ca6e7effaefaeacb474a9fe5e.gif
 trans.png: trans-528336ef10f47fc09753d9bfe2bc0962.png
-application.js: application-14529e4e7534a86b9b389905da54841f.js
+application.js: application-fd84020807e52e923fc9b2e3166d6ded.js
 application.css: application-dfb062e889f02fbe5cad2af15e1f365e.css
 images/black_file.gif: images/black_file-90ead1b0bdf665536a942b0701d735f4.gif
 images/blue_file.gif: images/blue_file-7f8f9969d5e73f4d985b64b86f667c4b.gif

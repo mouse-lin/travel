@@ -47,7 +47,8 @@
             result.search.daystart.push($("#dateStart").val());
             result.search.dayend.push($("#dateEnd").val());
 
-            window.location.href = "homes?" + $.param(result);
+            ajax_request(1,$.param(result));
+           //window.location.href = "homes?" + $.param(result);
         }
         
         callback = { 
@@ -153,6 +154,50 @@
        // //quickSearchjGrowl(); 
        // //$.Move("quickSearchjGrowlWindow");
     });
+
+    function ajax_request(page,condition){ 
+       var url = "/homes?page=" + page;
+       $("#homecontent").waiting({ imgsrc: "../images/loading.gif" });
+       $.ajax({ 
+         url : url,
+         data: condition,
+         dataType: "json",
+         success: function(data){ 
+             $("#homecontent").stopWaiting();
+             if(data.count !=0 ){  
+                 var result_title = "<h2>旅游团发团搜索结果</h2>";
+                 var result_content = "<ul>"; 
+                 $.each(data.content,function(index,value){ 
+                     result_content += '<li><div class="imgholder"><a href="#"><img src="/images/demo/794_s.jpg" alt="" /></a></div> <b>线路名称:</b><strong><a href="#"> ' + value.line_name + "</a></strong><br>" + "<b>产品类型:</b>" + value.product_type + "<br>" + "<b>线路编号:</b>" + value.id + "<br></li>" ; 
+                 })
+                 result_content += "</ul>";
+                 result_content += "<div id='page'><div>";
+                 $(".column2").html(result_content);
+                 $("#page").paginate({ 
+                      count: data.count, 
+                      start: 1,
+                      border                    : true, 
+                      border_color            : '#BEF8B8', 
+                      text_color              : '#79B5E3', 
+                      background_color        : '#E3F2E1',     
+                      border_hover_color        : '#68BA64', 
+                      text_hover_color          : '#2573AF', 
+                      images                    : false, 
+                      mouse                    : 'press', 
+                      background_hover_color    : '#CAE6C6',  
+                      onChange: function(page){  ajax_request(page,condition); }
+                 });
+             }else{ 
+                 $(".column2").html("没有该类型的发团 ");
+             }
+         },
+         failure: function(){ 
+             $("#homecontent").stopWaiting();
+             alert("获取数据失败");
+         }
+       })
+    }
+
 
     //autocomplete扩展方法
     function autocompleteSearch(dom,url,itemString){
