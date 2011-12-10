@@ -11,4 +11,5 @@ class HomesController < ApplicationController
   def auto_search
     autocomplete_search  
   end
+
 end

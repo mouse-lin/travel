@@ -1,13 +1,87 @@
 QuickSearch
 ===========
 
-Introduction goes here.
+#----------------------------------------------
+#Mouse - travel - search
 
 
+# js 在application.html.erb添加需要源
+<!jquery>
+<%= javascript_include_tag "jquery-1.6.min.js" %>
+<!时间选择>
+<%= javascript_include_tag "glDatePicker.js" %>
+<!即时搜索>
+<%= javascript_include_tag "jquery.autocomplete.js" %>
+<!平铺选择>
+<%= javascript_include_tag "tilesearch.js" %>
+<!waiting 按钮 >
+<%= javascript_include_tag "jquery.waiting.js" %>
+<!waiting 分页 >
+<%= javascript_include_tag "jquery.paginate.js" %>
+<!搜索前台js实现 >
+<%= javascript_include_tag "travel.js" %>
+
+#----------------------------------------------
+# 添加需要的css文件
+ajax_page.css - ajax使用的分页css，可以自行修改
+form_page.css - form使用分页css,可以自行修改
+jquery.autocomplete - 自动补全css,可以自行修改
+tilesearch.css - 详细搜索样式css,不建议自行修改
+其他css文件，自行考虑需要添加与否
+
+#----------------------------------------------
+#在Gemfile添加下面两行
+#两个必须要的gem
+gem "meta_search"
+gem "will_paginate"
+
+#----------------------------------------------
 Example
 =======
+#使用介绍
 
-Example goes here.
+#---------------------------------------------- 
+#后台写法
+#第一个参数，"form" || "ajax"，分别使用form、ajax请求；第二个参数：分页数量
+#返回结果: 
+# =>  form:  @results 与 @search_results 为分别数据,提供@results作为外部数据接口
+# =>  ajax:  data.content 
+# index => 这个方法主要是渲染界面的方法
+def index
+  quick_search "ajax",10
+end
 
+#自动补全方法，auto_search什么方法都可以，但是必须使用autocomplete_search
+def auto_search
+  autocomplete_search  
+end
+
+#----------------------------------------------
+#前台写法
+<script type="text/javascript" charset="utf-8">
+    triggle = { 
+        products : <%= @products %>,
+        chufas   : <%= @chufas %>,
+        destcats : <%= @destcats %>,
+        linetypes : <%= @linetypes %>
+    }
+    originValue = { 
+        product : <%= flash[:product].to_json.html_safe %> || triggle.products[0],
+        chufa : <%= flash[:chufa_name].to_json.html_safe %> || [],
+        linetype : <%= flash[:linetype_name].to_json.html_safe %> || [],
+        price : <%= flash[:price].to_json.html_safe %> || [],
+        days : <%= flash[:days].to_json.html_safe %> || [],
+        destcat : <%= flash[:dest_name].to_json.html_safe %> || []
+    }
+    jQuery(document).ready(function(){
+        initForm("ajax") //启动autocomplete || 搜索， 参数可以使用 "ajax" || "form"，其他不需要设置
+    });
+</script>
+#其他界面可以参考index.html.erb文件<table>使用
+#----------------------------------------------
+
+# 注意! 倘若需要修改后台数据返回，请查看vendor/plugins/quick_search/lib/quick_search.rb文件的94行(form请求),114(ajax请求);
+#  倘若需要布局前面返回结果: form请求：index.html.erb 78行开始; ajax请求: app/assets/javascripts/travel.js 207行，
+#(使用是那种请求需要就修改那种)
 
 Copyright (c) 2011 [name of plugin creator], released under the MIT license
