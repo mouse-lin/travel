@@ -14,297 +14,8 @@
         destcat : <%= flash[:dest_name].to_json.html_safe %> || []
     }
     jQuery(document).ready(function(){
-        //其他选择 -- 彬
-        initForm() //启动autocomplete
-        search = function () { 
-            var result = { 
-                type : { product : [] }, 
-                search : { chufa_name : [], dest_name : [], linetype_name : [], daystart : [], dayend : [], days : [], price : [] } 
-            };
-
-            $(".tilesearch-chufa").find(".tilesearch-result-item").each (function () { 
-                result.search.chufa_name.push($(this).text());
-            })
-            $(".tilesearch-product").find(".tilesearch-result-item").each (function () { 
-                result.type.product.push($(this).text());
-            })
-            $(".tilesearch-destcat").find(".tilesearch-result-item").each (function () { 
-                result.search.dest_name.push($(this).text());
-            })
-            if(result.type.product[0] !== "签证") { 
-                $(".tilesearch-linetype").find(".tilesearch-result-item").each (function () { 
-                    result.search.linetype_name.push($(this).text());
-                })
-            }
-            if(result.type.product[0] !== "签证") { 
-                $(".tilesearch-day").find(".tilesearch-result-item").each (function () { 
-                    result.search.days.push($(this).text());
-                })
-            }
-            $(".tilesearch-price").find(".tilesearch-result-item").each (function () { 
-                result.search.price.push($(this).text());
-            })
-            result.search.daystart.push($("#dateStart").val());
-            result.search.dayend.push($("#dateEnd").val());
-
-            ajax_request(1,$.param(result));
-           //window.location.href = "homes?" + $.param(result);
-        }
-        
-        callback = { 
-            firstclick : function (result) { 
-                search();
-            },
-            secondclick : function (result) { 
-                search();
-            },
-            clear : function () { 
-                search();
-            },
-            remove : function(result, tilesearch) { 
-                search();
-            },
-            save : function (result) {
-                search();
-            },
-            allsearch : function (result) { 
-                search();
-            }
-        }
-        //*/
-        /*
-        callback = {  };
-        //*/
-
-        $(".tilesearch-chufa").tilesearch ({ 
-            children : triggle.chufas,
-            origin : originValue.chufa,
-            select : 1,
-            result : function (f_value) { 
-                return f_value;
-            },
-            callback : callback
-        });
-        $(".tilesearch-product").tilesearch ({ 
-            children : triggle.products,
-            select : 4,
-            hideall : true,
-            origin : originValue.product,
-            result : function (f_value) {
-                return f_value;
-            },
-            callback : $.extend({  }, callback, { 
-                beforeorigin : function () { 
-                    if( originValue.product.length > 0 && originValue.product[0] === "签证") {
-                        $(".tilesearch-chufa strong").text("送签地:");
-                        $(".tilesearch-destcat strong").text("送签国:");
-                        $(".tilesearch-linetype").hide();
-                        $(".tilesearch-day").hide();
-                    }
-                    return;
-                }
-            })
-        });
-        $(".tilesearch-linetype").tilesearch ({ 
-            children : triggle.linetypes,
-            select : 2,
-            origin : originValue.linetype,
-            result : function (f_value) { 
-                return f_value;
-            },
-            callback : callback
-        });
-        $(".tilesearch-price").tilesearch ({ 
-            children : [
-                "500以内", "500-1000", "1000-2000", "2000-4000", "4000-10000", "10000以上"
-            ],
-            select : 1,
-            origin : originValue.price,
-            result : function (f_value) { 
-                return f_value;
-            },
-            callback : callback
-        });
-        $(".tilesearch-day").tilesearch ({ 
-            children : [
-                "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "15天以上"
-            ],
-            select : 1,
-            origin : originValue.days,
-            result : function (f_value) { 
-                return f_value;
-            },
-            callback : callback
-        });
-        $(".tilesearch-destcat").tilesearch ({ 
-            children : triggle.destcats,
-            select : 3,
-            result : function (value) { 
-                return value;
-            },
-            origin : originValue.destcat,
-            callback : callback
-        });
-        var class2 = [ ".tilesearch-product", ".tilesearch-time", ]
-        
-       // //表格校验开始
-       // jGrowl = { open: false };
-       // jQuery("#formID").validationEngine();
-
-       // //quickSearchjGrowl(); 
-       // //$.Move("quickSearchjGrowlWindow");
+        initForm("ajax") //启动autocomplete
     });
-
-    function ajax_request(page,condition){ 
-       var url = "/homes?page=" + page;
-       $("#homecontent").waiting({ imgsrc: "../images/loading.gif" });
-       $.ajax({ 
-         url : url,
-         data: condition,
-         dataType: "json",
-         success: function(data){ 
-             $("#homecontent").stopWaiting();
-             if(data.count !=0 ){  
-                 var result_title = "<h2>旅游团发团搜索结果</h2>";
-                 var result_content = "<ul>"; 
-                 $.each(data.content,function(index,value){ 
-                     result_content += '<li><div class="imgholder"><a href="#"><img src="/images/demo/794_s.jpg" alt="" /></a></div> <b>线路名称:</b><strong><a href="#"> ' + value.line_name + "</a></strong><br>" + "<b>产品类型:</b>" + value.product_type + "<br>" + "<b>线路编号:</b>" + value.id + "<br></li>" ; 
-                 })
-                 result_content += "</ul>";
-                 result_content += "<div id='page'><div>";
-                 $(".column2").html(result_content);
-                 $("#page").paginate({ 
-                      count: data.count, 
-                      start: 1,
-                      border                    : true, 
-                      border_color            : '#BEF8B8', 
-                      text_color              : '#79B5E3', 
-                      background_color        : '#E3F2E1',     
-                      border_hover_color        : '#68BA64', 
-                      text_hover_color          : '#2573AF', 
-                      images                    : false, 
-                      mouse                    : 'press', 
-                      background_hover_color    : '#CAE6C6',  
-                      onChange: function(page){  ajax_request(page,condition); }
-                 });
-             }else{ 
-                 $(".column2").html("没有该类型的发团 ");
-             }
-         },
-         failure: function(){ 
-             $("#homecontent").stopWaiting();
-             alert("获取数据失败");
-         }
-       })
-    }
-
-
-    //autocomplete扩展方法
-    function autocompleteSearch(dom,url,itemString){
-        $(dom).autocomplete(url,{ 
-            max:12,
-            delay:1,
-            dataType: "json",
-            parse: function(data) {  
-              return $.map(eval(data), function(row) {  
-                  return {  
-                       data: row,  
-                       result: row.name
-                    }  
-                });
-            },  
-            formatItem: function(item) {  
-                if(!itemString)
-                  return   item.name  ;  
-                else
-                  return itemString;
-            },  
-        });
-    }
-
-    //定义autocomplete函数
-    function initForm(){ 
-        //日期选择定义
-        $("#dateEnd").glDatePicker({
-            onChange: function(target, newDate){
-                 target.val
-                 (
-                     newDate.getFullYear() + "-" +
-                     (newDate.getMonth() + 1) + "-" +
-                     newDate.getDate()
-                 );
-                 search();
-           }
-        });
-
-        $("#dateStart").glDatePicker({
-            onChange: function(target, newDate){
-                target.val
-                (
-                    newDate.getFullYear() + "-" +
-                    (newDate.getMonth() + 1) + "-" +
-                    newDate.getDate()
-                );
-                $("#dateEnd")[0].focus();
-           }
-        });
-        $(".tilesearch-time u").click (function () { 
-            $("#dateStart").val("");
-            $("#dateEnd").val("");
-
-            search();
-        });
-        //autocomplete定义标签
-        autocompleteSearch("#pifaName","/homes/autocomplete_search.json?model=Pifa");
-        autocompleteSearch("#lineName","/homes/autocomplete_search.json?model=Linename");
-    }
-
-    /*
-    //查询拖放窗口
-    function quickSearchjGrowl(){ 
-        /* 前台使用快速搜索代码  --> 复制这里的代码可以随时在html.erb中使用
-        <%= form_tag "/homes", :id => "quickSearch", :class => "quickSearch", :method => "get" do %>
-        产品分类<font  color="red">*</font>：
-        <%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :value => flash[:product_type], :size => 20 %><br>
-        线路编号：
-        <%=text_field :search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %><br>
-        品牌编号：
-        <%=text_field :search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>
-        <button>确定</button>
-        <%end%>
-
-        if(!jGrowl.open){  
-            var form_start = '<%= form_tag "/homes"  , :id => "quickSearch", :class => "quickSearch", :method => "get" do %>';
-        var product = '<%=text_field :type, :product, :id =>"productS", :class => "validate[required]", :hidden => true, :value => flash[:product_type], :size => 20 %><br>'
-            var line_name = '线路名称：<%=text_field :quick_search, :line_name, :id =>"lineName",:value => flash[:line_name], :size => 20 %><br>';
-            var line_number = '线路编号：<%=text_field :quick_search, :line_number, :id =>"lineNumber",:value => flash[:line_number], :size => 20 %><br>';
-            var pifa_name = '品牌编号：<%=text_field :quick_search, :pifa_name, :id =>"pifaName",:value => flash[:pifa_name], :size => 20 %><br>';
-            var button='<button>确定</button>';
-            var form_end = '<% end %>';
-
-            var title="快速查询";
-            var content_string = form_start +  line_number + line_name + pifa_name +  button + form_end;
-            return $.jGrowl(content_string,{ 
-                sticky: true,
-                header: title,
-                position: "bottom-right",
-                close: function(){ 
-                    jGrowl.open = false;
-                },
-                afterOpen: function(){ 
-                    jGrowl.open = true;
-                    initForm();
-                },
-   			   		 nimateOpen: { 
-				   		     height: "show",
-				   		     width: "show"
-				   	   },
-            });
-        }
-    }
-    */
-
-
 </script>
 <div class="wrapper col3">
   <div id="homecontent">
@@ -321,8 +32,8 @@
                           <div style='display:inline;'><span>出团时间起:</span><input readonly id='dateStart' value = <%= flash[:daystart] %>></div>
                           <div style='display:inline;'><span id='tilesearch-end'>出团时间止:</span><input readonly id='dateEnd' value = <%= flash[:dayend]%> ><u>清除</u></div>
                       </div>
-                      <ul class='tilesearch-parent tilesearch-day'>      <strong >天数:</strong></ul>
-                      <ul class='tilesearch-parent tilesearch-price'>    <strong >价格:</strong></ul>
+                      <ul class='tilesearch-parent tilesearch-day'><strong >天数:</strong></ul>
+                      <ul class='tilesearch-parent tilesearch-price'><strong >价格:</strong></ul>
                       </td>
                   </table>
               </td>
@@ -360,44 +71,9 @@
               </td>
           </tr>
       </table>
-        <!--
-    <div class="fl_left">
-      <div class="column2">
-        <ul>
-          <li>
-            <form id="formID" class="formular" action="/homes">
-            <b>详细搜索栏</b><br>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                产品分类<font  color="red">*</font>：<input readonly class="search-product"  name="type[product]" id="product" value=<%=flash[:product_type]%> ></input>
-                出发地 ：<div class='initial'><input style='display:initial;' class='search-chufa' type="text" name="search[chufa_name]" readonly value=<%= flash[:chufa_name]%> ></input><u>清除</u></div>
-                目的地：<div class='initial'><input style='display:initial;' class='search-destcat' type="text" readonly name="search[dest_name]" value=<%= flash[:dest_name]%>></input><u>清除</u></div>
-                线路类型：<div class='initial'><input style='display:initial;' class='search-linetype' type="text" readonly  name="search[linetype_name]" value=<%= flash[:linetype_name]%>></input><u>清除</u></div>
-              </td>
-              <td>
-                出团时间起：<input  class="validate[custom[date]]"  id="dateStart" name="search[daystart]" value=<%= flash[:daystart]%>></input>
-                出团时间止：<input  class="validate[custom[date]]"  id="dateEnd"   name="search[dayend]"   value=<%= flash[:dayend]%>></input>
-                天数：<div class='initial'><input style='display:initial;' class="search-days" type="text" readonly  name="search[days]" value=<%= flash[:days]%>></input><u>清除</u></div>
-                价格：<div class='initial'><input style='display:initial;' class="search-price" type="text" readonly  name="search[price]" value=<%= flash[:price]%>></input><u>清除</u></div>
-               </td>
-              </tr>
-            </tbody>
-           </table>
-                <button>高级搜索</button>
-            </form>
-
-          </li>
-        </ul>
-        <br class="clear" />
-      </div>
-
-        -->
 
 
       <div class="column2" style='clear:both;'>
-      
       <h2>旅游发团搜索结果</h2>
       <% if @results %>
       <ul>
@@ -456,11 +132,8 @@
         没有该类型的发团
       <% end %>
       </div>
-
     </div>
-
     <div class="fl_right">
-
     </div>
     <br class="clear" />
   </div>
