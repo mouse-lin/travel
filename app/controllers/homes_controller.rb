@@ -115,8 +115,9 @@ private
      #  })
      #  @search_results << l
       count = Linefatuan.search(search_hash).count
+      limit = 10
       params[:page] = 1 unless params[:page] 
-      @results = Linefatuan.search(search_hash).page(params[:page]).limit(1).each do |l|
+      @results = Linefatuan.search(search_hash).page(params[:page]).limit(limit).each do |l|
        l = l.attributes.merge({ 
          "product_type" => l.line.product.name,
          "line_name" => l.line.try(:linename).try(:name),
